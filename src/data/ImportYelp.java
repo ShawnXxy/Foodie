@@ -41,7 +41,7 @@ public class ImportYelp {
 					+ "(business_id VARCHAR(255) NOT NULL, " 
 					+ "name VARCHAR(255), "
 					+ "categories VARCHAR(255), " 
-					+ "stars FLOAT,"
+					+ "rating FLOAT,"
 					+ "city VARCHAR(255), " 
 					+ "state VARCHAR(255), " 
 					+ "full_address VARCHAR(255), " 

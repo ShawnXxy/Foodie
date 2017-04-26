@@ -46,7 +46,7 @@ public class MySQL implements DataConnection {
 			try {
 				connect.close();
 			} catch (Exception e) {
-				//ingored
+				//igored
 			}
 		}
 	}
@@ -96,10 +96,10 @@ public class MySQL implements DataConnection {
 				statement.setString(1, businessID);
 				statement.setString(2, name);
 				statement.setString(3, categories);
-				statement.setDouble(7, rating);
-				statement.setString(4, city);
-				statement.setString(5, state);
-				statement.setString(6, address);			
+				statement.setDouble(4, rating);
+				statement.setString(5, city);
+				statement.setString(6, state);
+				statement.setString(7, address);			
 				statement.setDouble(8, latitude);
 				statement.setDouble(9, longitude);
 				statement.setString(10, imageURL);

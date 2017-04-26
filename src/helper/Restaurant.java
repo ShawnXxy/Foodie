@@ -44,10 +44,10 @@ public class Restaurant {
 	private String businessID;
 	private String name;
 	private String categories;
+	private double rating;
 	private String city;
 	private String state;
-	private String address;
-	private double rating;
+	private String address;	
 	private double latitude;
 	private double longitude;
 	private String imageURL;
@@ -71,7 +71,7 @@ public class Restaurant {
 				this.categories = String.join(",", list);
 				this.name = object.getString("name");
 				this.imageURL = object.getString("image_url");
-				this.rating = object.getDouble("stars");
+				this.rating = object.getDouble("rating");
 				JSONObject coordinates = (JSONObject) object.get("coordinates");
 				this.latitude = coordinates.getDouble("latitude");
 				this.longitude = coordinates.getDouble("longitude");
@@ -107,7 +107,7 @@ public class Restaurant {
 			obj.put("business_id", businessID);
 			obj.put("name", name);
 			obj.put("categories", stringToJSONArray(categories));
-			obj.put("stars", rating);
+			obj.put("rating", rating);
 			obj.put("city", city);
 			obj.put("state", state);
 			obj.put("full_address", address);

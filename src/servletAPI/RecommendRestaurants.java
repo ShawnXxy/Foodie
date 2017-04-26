@@ -34,8 +34,8 @@ public class RecommendRestaurants extends HttpServlet {
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
 		JSONArray array = new JSONArray();
 		try {
-			if (request.getParameterMap().containsKey("userID")) {
-				String userID = request.getParameter("userID");
+			if (request.getParameterMap().containsKey("user_id")) {
+				String userID = request.getParameter("user_id");
 				//TEST: return fake restaurants
 				array.put(new JSONObject()
 						.put("name", "Panda Express")

@@ -73,8 +73,8 @@ public class SearchRestaurants extends HttpServlet {
 		JSONArray array = new JSONArray();
 		DataConnection connection = new MySQL();
 //		try { // runs normally 
-			if (request.getParameterMap().containsKey("user_id") 
-					&& request.getParameterMap().containsKey("lat") 
+			if (request.getParameterMap().containsKey("lat") 
+					&& request.getParameterMap().containsKey("user_id") 					
 					&& request.getParameterMap().containsKey("lon")) {
 				//retm is null or empty by default
 				String term = request.getParameter("term");
