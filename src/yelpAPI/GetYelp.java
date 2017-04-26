@@ -74,7 +74,7 @@ public class GetYelp { //initialize the connection with Yelp Developer account, 
 	 * https://www.yelp.com/developers/documentation/v2/search_api
 	 * https://www.yelp.com/developers/documentation/v2/business
 	 */
-	public String searchForBusinessesByLocation(double lat, double lon) {
+	public String searchForBusinessByLocation(double lat, double lon) {
 		String latitude = lat + "";
 		String longitude = lon + "";
 		String query = String.format("term=%s&latitude=%s&longitude=%s&limit=%s", DEFAULT_TERM, latitude, longitude, SEARCH_LIMIT); //DEFAULT_TERM = "dinner"; 
@@ -115,16 +115,16 @@ public class GetYelp { //initialize the connection with Yelp Developer account, 
 	/**
 	 * Queries the Search API based on the command line arguments and takes the first result to query the Business API.
 	 * 
-	 *  Internal method to test Yelp API and make sure your configuration is correct
+	 *  Internal method to test Yelp API and make sure the configuration is correct
 	 */
 	private static void queryAPI(GetYelp yelp, double lat, double lon) {
-		String searchResponseJSON = yelp.searchForBusinessesByLocation(lat, lon);
+		String searchResponseJSON = yelp.searchForBusinessByLocation(lat, lon);
 		JSONObject response = null;
 		try {
 			response = new JSONObject(searchResponseJSON);
-			JSONArray businessesList = (JSONArray) response.get("businesses");
-			for (int i = 0; i < businessesList.length(); i++) {
-				JSONObject business = (JSONObject) businessesList.get(i);
+			JSONArray businessList = (JSONArray) response.get("businesses");
+			for (int i = 0; i < businessList.length(); i++) {
+				JSONObject business = (JSONObject) businessList.get(i);
 				System.out.println(business);
 			}
 		} catch (Exception e) {

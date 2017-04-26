@@ -22,7 +22,7 @@ public class MySQL implements DataConnection {
 	 * Query MySQL during the runtime
 	 */
 	private Connection connect = null;
-	private static final int MAX_RECOMMENDED_RESTAURANTS = 10;
+	private static final int MAX_RECOMMENDED_RESTAURANTS = 20;
 	
 	public MySQL() {
 		this(Configure.URL);
@@ -61,7 +61,7 @@ public class MySQL implements DataConnection {
 		try {
 			//Connect to Yelp API
 			GetYelp yelp = new GetYelp();
-			JSONObject response = new JSONObject(yelp.searchForBusinessesByLocation(lat, lon));
+			JSONObject response = new JSONObject(yelp.searchForBusinessByLocation(lat, lon));
 			JSONArray array = (JSONArray) response.get("businesses");
 			
 			List<JSONObject> list = new ArrayList<>();
@@ -204,13 +204,45 @@ public class MySQL implements DataConnection {
 	@Override
 	public Boolean verifyLogin(String userID, String password) {
 		// TODO Auto-generated method stub
-		return null;
+//		return null;
+		try {
+			if (connect == null) {
+				return false;
+			}
+			String sql = "SELECT user_id from suers WHERE user_id = ? and password = ?";
+			PreparedStatement statement = connect.prepareStatement(sql);
+			statement.setString(1, userID);
+			statement.setString(2, password);
+			ResultSet result = statement.executeQuery();
+			if (result.next()) {
+				return true;
+			}
+		} catch (Exception e) {
+//			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return false;
 	}
 
 	@Override
 	public String getUserName(String userID) {
 		// TODO Auto-generated method stub
-		return null;
+//		return null;
+		String name = "";
+		try {
+			if (connect != null) {
+				String sql = "SELECT first_name, last_name from users WHERE user_id = ?";
+				PreparedStatement statement = connect.prepareStatement(sql);
+				statement.setString(1, userID);
+				ResultSet result = statement.executeQuery();
+				if (result.next()) {
+					name += result.getString("first_name") + result.getString("last_name");
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return name;
 	}
 	
 }
