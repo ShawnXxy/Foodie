@@ -3,6 +3,7 @@ package servletAPI;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,7 +40,24 @@ public class VisitHistory extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+//		response.getWriter().append("Served at: ").append(request.getContextPath());
+		try {
+			DataConnection connection = new MySQL();
+			JSONArray array = null;
+			if (request.getParameterMap().containsKey("user_id")) {
+				String userID = request.getParameter("user_id");
+				Set<String> visited_business_id = connection.getVsitedRestaurantsList(userID);
+				array = new JSONArray();
+				for (String id: visited_business_id) {
+					array.put(connection.getRestaurantsByID(id, true));
+				}
+				RPCparse.writeOutput(response, array);
+			} else {
+				RPCparse.writeOutput(response, new JSONObject().put("status", "InvalidParameter"));
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -68,6 +86,28 @@ public class VisitHistory extends HttpServlet {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	//Implementation that frontend can call VisitHistory API and unset the visited restaurant 
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			JSONObject input = RPCparse.parseInput(request);
+			if (input.has("user_id") && input.has("visited")) {
+				String userID = (String) input.get("user_id");
+				JSONArray array = (JSONArray) input.get("visited");
+				List<String> businessIDList = new ArrayList<>();
+				for (int i = 0; i < array.length(); i++) {
+					String businessID = (String) array.get(i);
+					businessIDList.add(businessID);
+				}
+				connection.unsetVisitedRestaurantsList(userID, businessIDList);
+				RPCparse.writeOutput(response, new JSONObject().put("status", "200"));
+			} else {
+				RPCparse.writeOutput(response, new JSONObject().put("status", "InvalidParameter"));
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
