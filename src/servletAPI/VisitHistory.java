@@ -54,12 +54,12 @@ public class VisitHistory extends HttpServlet {
 			if (input.has("user_id") && input.has("visited")) {
 				String userID = (String) input.get("user_id");
 				JSONArray array = (JSONArray) input.get("visited");
-				List<String> visitedRestaurantsList = new ArrayList<>();
+				List<String> businessIDList = new ArrayList<>();
 				for (int i = 0; i < array.length(); i++) {
 					String businessID = (String) array.get(i);
-					visitedRestaurantsList.add(businessID);
+					businessIDList.add(businessID);
 				}
-				connection.setVisitedRestaurantsList(userID, visitedRestaurantsList);
+				connection.setVisitedRestaurantsList(userID, businessIDList);
 				RPCparse.writeOutput(response, new JSONObject().put("status", "200")); //connection status === ok
 			} else {
 				RPCparse.writeOutput(response, new JSONObject().put("status", "InvalidParameter"));

@@ -108,10 +108,8 @@ public class MySQL implements DataConnection {
 				//Perform filtering if term is specified
 				if (term == null || term.isEmpty()) {
 					list.add(obj);
-				} else {
-					if (categories.contains(term) || address.contains(term) || name.contains(term)) {
+				} else if (categories.contains(term) || address.contains(term) || name.contains(term)) {
 						list.add(obj);
-					}
 				}				
 			}
 			return new JSONArray(list);
@@ -144,7 +142,7 @@ public class MySQL implements DataConnection {
 	@Override //Insert a new row in history table
 	public void setVisitedRestaurantsList(String userID, List<String> businessIDList) {
 		// TODO Auto-generated method stub
-		String sql = "INSERT INTO history (user_id, business_id VALUES (?, ?)";
+		String sql = "INSERT INTO history (user_id, business_id) VALUES (?, ?)";
 		try {
 			PreparedStatement statement = connect.prepareStatement(sql);
 			for (String businessID: businessIDList) {
