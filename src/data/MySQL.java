@@ -161,7 +161,7 @@ public class MySQL implements DataConnection {
 	@Override // Delete an existed row
 	public void unsetVisitedRestaurantsList(String userID, List<String> businessIDList) {
 		// TODO Auto-generated method stub
-		String sql = "DELETE FROM history WHERE user_id = ? and business_id = ?";
+		String sql = "DELETE from history WHERE user_id = ? and business_id = ?";
 		try {
 			PreparedStatement statement = connect.prepareStatement(sql);
 			for (String businessID : businessIDList) {
@@ -199,7 +199,7 @@ public class MySQL implements DataConnection {
 		// TODO Auto-generated method stub
 		// return null;
 		try {
-			String sql = "SELECT * from restaurants where business_id = ?";
+			String sql = "SELECT * from restaurants WHERE business_id = ?";
 			PreparedStatement statement = connect.prepareStatement(sql);
 			statement.setString(1, businessID);
 			ResultSet result = statement.executeQuery();
@@ -230,8 +230,7 @@ public class MySQL implements DataConnection {
 			for (String restaurant : visitedRestaurants) {
 				categorySet.addAll(getCategories(restaurant));
 			}
-			// STEP 3: Given all these categories, find restaurants with these
-			// categories from restaurants table
+			// STEP 3: Given all these categories, find restaurants with these categories from restaurants table
 			Set<String> categoriedRestaurants = new HashSet<>();
 			for (String category : categoriedRestaurants) {
 				Set<String> categoriedBusinessID = getBusinessID(category);
@@ -244,7 +243,7 @@ public class MySQL implements DataConnection {
 				if (!visitedRestaurants.contains(businessID)) {
 					result.add(getRestaurantsByID(businessID, false));
 					count++;
-					if (count >= MAX_RECOMMENDED_RESTAURANTS) {
+					if (count > MAX_RECOMMENDED_RESTAURANTS) {
 						break;
 					}
 				}
@@ -307,7 +306,7 @@ public class MySQL implements DataConnection {
 			if (connect == null) {
 				return false;
 			}
-			String sql = "SELECT user_id from suers WHERE user_id = ? and password = ?";
+			String sql = "SELECT user_id from users WHERE user_id = ? and password = ?";
 			PreparedStatement statement = connect.prepareStatement(sql);
 			statement.setString(1, userID);
 			statement.setString(2, password);
