@@ -4,8 +4,10 @@
      */
     var user_id = '';
     var user_fullname = '';
-    var lon = -122.08;
-    var lat = 37.38;
+    //FHSU coordinates
+    var lat = 38.8799294;
+    var lon = -99.3349108;
+    
 
     /**
      * HELPER function
@@ -275,7 +277,7 @@
         activeBtn('nearby-btn'); //defined in DISPLAY SETTING
 
         // The request parameters
-        var url = './restaurants';
+        var url = './search';
         var params = 'user_id=' + user_id + '&lat=' + lat + '&lon=' + lon;
         var req = JSON.stringify({});
 

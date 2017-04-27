@@ -59,11 +59,15 @@ public class VisitHistory extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/***
+     * CONNECT TO DATABASE
+     */
+	private static final DataConnection connection = new MySQL();
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	private static final DataConnection connection = new MySQL();
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		doGet(request, response);

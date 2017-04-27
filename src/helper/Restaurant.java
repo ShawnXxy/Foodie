@@ -86,15 +86,15 @@ public class Restaurant {
 		}
 	}
 
-	// do not automatically generate this constructor
-	public Restaurant(String businessID, String name, String categories, double rating, String city, String state, String address, double latitude, double longitude, String imageURL, String url) {
+	//constructor, used in MySQL class
+	public Restaurant(String businessID, String name, String categories, String city, String state, double rating, String address, double latitude, double longitude, String imageURL, String url) {
 		this.businessID = businessID;
 		this.name = name;
-		this.categories = categories;
-		this.rating = rating;
+		this.categories = categories;	
 		this.city = city;
 		this.state = state;
 		this.address = address;	
+		this.rating = rating;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.imageURL = imageURL;

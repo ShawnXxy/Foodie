@@ -11,6 +11,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import data.DataConnection;
+import data.MySQL;
+
 /**
  * Servlet implementation class RecommendRestaurants
  */
@@ -26,29 +29,37 @@ public class RecommendRestaurants extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
+    /***
+     * CONNECT TO DATABASE
+     */
+    private static DataConnection connection = new MySQL();
+    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
-		JSONArray array = new JSONArray();
-		try {
+
+//		JSONArray array = new JSONArray();		
+		JSONArray array = null;
+//		try {
 			if (request.getParameterMap().containsKey("user_id")) {
 				String userID = request.getParameter("user_id");
-				//TEST: return fake restaurants
-				array.put(new JSONObject()
-						.put("name", "Panda Express")
-						.put("location", "downtown")
-						.put("country", "US"));
-				array.put(new JSONObject()
-						.put("name", "Hong Kong Express")
-						.put("location", "uptown")
-						.put("country", "US"));
+				array = connection.recommendRestaurants(userID);
+//				//TEST: return fake restaurants
+//				array.put(new JSONObject()
+//						.put("name", "Panda Express")
+//						.put("location", "downtown")
+//						.put("country", "US"));
+//				array.put(new JSONObject()
+//						.put("name", "Hong Kong Express")
+//						.put("location", "uptown")
+//						.put("country", "US"));
 			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		}
 		RPCparse.writeOutput(response, array);
 	}
 

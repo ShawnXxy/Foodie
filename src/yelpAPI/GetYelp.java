@@ -14,7 +14,7 @@ public class GetYelp { //initialize the connection with Yelp Developer account, 
 	//Yelp API source sample code https://github.com/Yelp/yelp-api/blob/master/v2/java/YelpAPI.java
 	private static final String API_HOST = "https://api.yelp.com";
 	private static final String DEFAULT_TERM = "dinner";
-	private static final int SEARCH_LIMIT = 20;
+	private static final int SEARCH_LIMIT = 50;
 	private static final String SEARCH_PATH = "/v3/businesses/search";
 	private static final String TOKEN_HOST = "https://api.yelp.com/oauth2/token";
 	private static final String CLIENT_ID = "GVs-s_-YSLeowugSzktDzg";
@@ -141,7 +141,10 @@ public class GetYelp { //initialize the connection with Yelp Developer account, 
 	 */
 	public static void main(String[] args) {
 		GetYelp yelp = new GetYelp();
+		//FHSU
 		queryAPI(yelp, 38.8799294, -99.3349108);
+		//SF
+//		queryAPI(yelp, 37.38, -122.08);
 	}
 }
 
