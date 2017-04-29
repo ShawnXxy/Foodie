@@ -19,7 +19,7 @@ import org.json.JSONObject;
  */
 public class RPCparse {
 	public static JSONObject parseInput(HttpServletRequest request) {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		String line = null;
 		try {
 			BufferedReader reader = request.getReader();

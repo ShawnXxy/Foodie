@@ -12,11 +12,11 @@ public interface DataConnection {
 	public void close();
 	
 	//Insert the visited restaurants for a user
-	public void setVisitedRestaurantsList(String userID, List<String> businessIDList);	
+	public boolean setVisitedRestaurantsList(String userID, List<String> businessIDList);	
 	//Delete the visited restaurants for a user
 	public void unsetVisitedRestaurantsList(String userID, List<String> businessIDList);
 	//Get the visted restaurants for a user
-	public Set<String> getVsitedRestaurantsList(String userID);
+	public Set<String> getVisitedRestaurantsList(String userID);
 	
 	//Get the restaurant json by ID
 	public JSONObject getRestaurantsByID(String businessID, boolean isVisted);

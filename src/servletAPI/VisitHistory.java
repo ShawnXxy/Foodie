@@ -46,9 +46,9 @@ public class VisitHistory extends HttpServlet {
 			JSONArray array = null;
 			if (request.getParameterMap().containsKey("user_id")) {
 				String userID = request.getParameter("user_id");
-				Set<String> visited_business_id = connection.getVsitedRestaurantsList(userID);
+				Set<String> visited_businessIDs= connection.getVisitedRestaurantsList(userID);
 				array = new JSONArray();
-				for (String id: visited_business_id) {
+				for (String id: visited_businessIDs) {
 					array.put(connection.getRestaurantsByID(id, true));
 				}
 				RPCparse.writeOutput(response, array);

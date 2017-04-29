@@ -47,7 +47,7 @@ public class MySQL implements DataConnection {
 			try {
 				connect.close();
 			} catch (Exception e) {
-				// igored
+				// ignored
 			}
 		}
 	}
@@ -111,10 +111,12 @@ public class MySQL implements DataConnection {
 				// Perform filtering if term is specified
 				if (term == null || term.isEmpty()) {
 					list.add(obj);
-				} else if (categories.contains(term) || address.contains(term) || name.contains(term)) {
-					list.add(obj);
+				} else {
+					if (categories.contains(term) || address.contains(term) || name.contains(term)) {
+						list.add(obj);
+					}					
 				}
-			}
+			} // end of for loop
 			return new JSONArray(list);
 		} catch (Exception e) {
 			// print result message in console
@@ -123,27 +125,8 @@ public class MySQL implements DataConnection {
 		return null;
 	}
 
-	private Set<String> getVisitedRestaurantsList(String userID) { // Query the history table and get all the restaurants from the table
-		// TODO Auto-generated method stub
-		// return null;
-		Set<String> visitedRestaurants = new HashSet<>();
-		try {
-			String sql = "SELECT business_id from history WHERE user_id = ?";
-			PreparedStatement statement = connect.prepareStatement(sql);
-			statement.setString(1, userID);
-			ResultSet result = statement.executeQuery();
-			while (result.next()) {
-				String visitedRestaurant = result.getString("business_id");
-				visitedRestaurants.add(visitedRestaurant);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return visitedRestaurants;
-	}
-
 	@Override // Insert a new row in history table
-	public void setVisitedRestaurantsList(String userID, List<String> businessIDList) {
+	public boolean setVisitedRestaurantsList(String userID, List<String> businessIDList) {
 		// TODO Auto-generated method stub
 		String sql = "INSERT INTO history (user_id, business_id) VALUES (?, ?)";
 		try {
@@ -156,6 +139,7 @@ public class MySQL implements DataConnection {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 	@Override // Delete an existed row
@@ -175,7 +159,7 @@ public class MySQL implements DataConnection {
 	}
 
 	@Override
-	public Set<String> getVsitedRestaurantsList(String userID) {
+	public Set<String> getVisitedRestaurantsList(String userID) {
 		// TODO Auto-generated method stub
 //		return null;
 		Set<String> visitedRestaurantSet = new HashSet<>();
@@ -197,7 +181,7 @@ public class MySQL implements DataConnection {
 	@Override
 	public JSONObject getRestaurantsByID(String businessID, boolean isVisted) {
 		// TODO Auto-generated method stub
-		// return null;
+//		return null;
 		try {
 			String sql = "SELECT * from restaurants WHERE business_id = ?";
 			PreparedStatement statement = connect.prepareStatement(sql);

@@ -13,7 +13,7 @@ public class ImportYelp {
 			Connection connect = null;
 
 			try {
-				System.out.println("Connecting to\n" + Configure.URL);
+				System.out.println("Connecting to \n" + Configure.URL);
 				connect = DriverManager.getConnection(Configure.URL);
 			} catch (SQLException e) {
 				System.out.println("SQLException " + e.getMessage());

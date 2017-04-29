@@ -22,7 +22,7 @@ public class GetYelp { //initialize the connection with Yelp Developer account, 
 	private static final String GRANT_TYPE = "client_credentials";
 	private static final String TOKEN_TYPE = "Bearer";
 
-	public GetYelp() {}
+	public GetYelp() {};
 
 	/**
 	 * Create and send a request to Yelp Token Host and return the access token
@@ -109,7 +109,6 @@ public class GetYelp { //initialize the connection with Yelp Developer account, 
 			e.printStackTrace();
 		}
 		return null;
-
 	}
 
 	/**

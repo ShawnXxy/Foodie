@@ -87,13 +87,14 @@ public class Restaurant {
 	}
 
 	//constructor, used in MySQL class
-	public Restaurant(String businessID, String name, String categories, String city, String state, double rating, String address, double latitude, double longitude, String imageURL, String url) {
+	public Restaurant(String businessID, String name, String categories, String city, String state, double rating,
+			String address, double latitude, double longitude, String imageURL, String url) {
 		this.businessID = businessID;
 		this.name = name;
-		this.categories = categories;	
+		this.categories = categories;
 		this.city = city;
 		this.state = state;
-		this.address = address;	
+		this.address = address;
 		this.rating = rating;
 		this.latitude = latitude;
 		this.longitude = longitude;
