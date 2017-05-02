@@ -9,7 +9,7 @@ import java.net.URL;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class GetYelp { //initialize the connection with Yelp Developer account, will be used by RPCparse()
+public class GetYelp {// initialize the connection with Yelp Developer account, will be used by RPCparse()
 	
 	//Yelp API source sample code https://github.com/Yelp/yelp-api/blob/master/v2/java/YelpAPI.java
 	private static final String API_HOST = "https://api.yelp.com";
@@ -22,7 +22,7 @@ public class GetYelp { //initialize the connection with Yelp Developer account, 
 	private static final String GRANT_TYPE = "client_credentials";
 	private static final String TOKEN_TYPE = "Bearer";
 
-	public GetYelp() {};
+	public GetYelp() {}
 
 	/**
 	 * Create and send a request to Yelp Token Host and return the access token
@@ -30,15 +30,16 @@ public class GetYelp { //initialize the connection with Yelp Developer account, 
 	private JSONObject obtainAccessToken() {
 		//https://github.com/Yelp/yelp-api/blob/master/v2/java/YelpAPI.java
 		try {
-			String query = String.format("grant_type=%s&client_id=%s&client_secret=%s",	GRANT_TYPE, CLIENT_ID, CLIENT_SECRET); //GRANT_TYPE = "client_credentials"; 
+			String query = String.format("grant_type=%s&client_id=%s&client_secret=%s", GRANT_TYPE, CLIENT_ID, CLIENT_SECRET); //GRANT_TYPE = "client_credentials"; 
 			
 			HttpURLConnection connection = (HttpURLConnection) new URL(TOKEN_HOST).openConnection(); //TOKEN_TYPE = "Bearer";
 
+			
 			connection.setDoOutput(true);
 			connection.setRequestMethod("POST");
 
 			// add request header
-			//connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+//			connection.setRequestProperty("User-Agent", "Mozilla/5.0");
 			connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			DataOutputStream getSomething = new DataOutputStream(connection.getOutputStream());
 			getSomething.write(query.getBytes());
@@ -74,7 +75,7 @@ public class GetYelp { //initialize the connection with Yelp Developer account, 
 	 * https://www.yelp.com/developers/documentation/v2/search_api
 	 * https://www.yelp.com/developers/documentation/v2/business
 	 */
-	public String searchForBusinessByLocation(double lat, double lon) {
+	public String searchForBusinessesByLocation(double lat, double lon) {
 		String latitude = lat + "";
 		String longitude = lon + "";
 		String query = String.format("term=%s&latitude=%s&longitude=%s&limit=%s", DEFAULT_TERM, latitude, longitude, SEARCH_LIMIT); //DEFAULT_TERM = "dinner"; 
@@ -87,7 +88,7 @@ public class GetYelp { //initialize the connection with Yelp Developer account, 
 			connection.setRequestMethod("GET");
 
 			// add request header
-			//connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+//			connection.setRequestProperty("User-Agent", "Mozilla/5.0");
 			connection.setRequestProperty("Authorization",  TOKEN_TYPE + " " + access_token);
 
 			int responseCode = connection.getResponseCode();
@@ -117,7 +118,7 @@ public class GetYelp { //initialize the connection with Yelp Developer account, 
 	 *  Internal method to test Yelp API and make sure the configuration is correct
 	 */
 	private static void queryAPI(GetYelp yelp, double lat, double lon) {
-		String searchResponseJSON = yelp.searchForBusinessByLocation(lat, lon);
+		String searchResponseJSON = yelp.searchForBusinessesByLocation(lat, lon);
 		JSONObject response = null;
 		try {
 			response = new JSONObject(searchResponseJSON);
@@ -132,11 +133,7 @@ public class GetYelp { //initialize the connection with Yelp Developer account, 
 	}
 
 	/**
-	 * TEST:
-	 * 
 	 * Main entry for sample Yelp API requests.
-	 * 
-	 * Use FHSU as an example
 	 */
 	public static void main(String[] args) {
 		GetYelp yelp = new GetYelp();
@@ -146,4 +143,3 @@ public class GetYelp { //initialize the connection with Yelp Developer account, 
 //		queryAPI(yelp, 37.38, -122.08);
 	}
 }
-

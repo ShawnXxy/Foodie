@@ -16,20 +16,19 @@ import org.json.JSONObject;
 import helper.Restaurant;
 import yelpAPI.GetYelp;
 
-public class MySQL implements DataConnection {
 
+public class MySQL implements DataConnection {
 	/**
 	 * Query MySQL during the runtime
 	 */
 	private Connection connect = null;
-	private static final int MAX_RECOMMENDED_RESTAURANTS = 20;
+	private static final int MAX_RECOMMENDED_RESTAURANTS = 10;
 
 	public MySQL() {
 		this(Configure.URL);
 	}
 
 	public MySQL(String url) {
-		// TODO Auto-generated constructor stub
 		try {
 			// Forcing the class representing the MySQL driver to load and initialize.
 			// The newInstance() call is a work around for some broken Java implementations
@@ -42,32 +41,35 @@ public class MySQL implements DataConnection {
 
 	@Override
 	public void close() {
-		// TODO Auto-generated method stub
+		// TODO Auto-generYated method stub
 		if (connect != null) {
 			try {
 				connect.close();
-			} catch (Exception e) {
+			} catch (Exception e) { 
 				// ignored
 			}
 		}
 	}
-
-	/**
+	
+	/******************************************************************
+	 * 
 	 * Call Yelp API and parse into Restaurant object(defined in Restaurant
 	 * class)
 	 * 
 	 * When search and get some restaurants results, store the data in MySQL so
 	 * no need to fetch them over and over every time when running
-	 */
+	 * 
+	 *********************************************************************/
+
 	@Override
 	public JSONArray searchRestaurants(String userID, double lat, double lon, String term) {
 		try {
 			// Connect to Yelp API
 			GetYelp yelp = new GetYelp();
-			JSONObject response = new JSONObject(yelp.searchForBusinessByLocation(lat, lon));
+			JSONObject response = new JSONObject(yelp.searchForBusinessesByLocation(lat, lon));
 			JSONArray array = (JSONArray) response.get("businesses");
 
-			List<JSONObject> list = new ArrayList<>();
+			List<JSONObject> list = new ArrayList<JSONObject>();
 			Set<String> visited = getVisitedRestaurantsList(userID);
 
 			for (int i = 0; i < array.length(); i++) {
@@ -77,18 +79,16 @@ public class MySQL implements DataConnection {
 				String businessID = restaurant.getBusinessID();
 				String name = restaurant.getName();
 				String categories = restaurant.getCategories();
-				double rating = restaurant.getRating();
 				String city = restaurant.getCity();
 				String state = restaurant.getState();
 				String address = restaurant.getAddress();
+				double stars = restaurant.getStars();
 				double latitude = restaurant.getLatitude();
 				double longitude = restaurant.getLongitude();
 				String imageURL = restaurant.getImageURL();
 				String url = restaurant.getURL();
-
 				// return clean restaurant object
 				JSONObject obj = restaurant.toJSONObject();
-
 				if (visited.contains(businessID)) {
 					obj.put("is_visited", true);
 				} else {
@@ -99,38 +99,37 @@ public class MySQL implements DataConnection {
 				statement.setString(1, businessID);
 				statement.setString(2, name);
 				statement.setString(3, categories);
-				statement.setDouble(4, rating);
-				statement.setString(5, city);
-				statement.setString(6, state);
+				statement.setString(4, city);
+				statement.setString(5, state);
+				statement.setDouble(6, stars);
 				statement.setString(7, address);
 				statement.setDouble(8, latitude);
 				statement.setDouble(9, longitude);
 				statement.setString(10, imageURL);
 				statement.setString(11, url);
 				statement.execute();
-				// Perform filtering if term is specified
+				// Perform filtering if term is specified.
 				if (term == null || term.isEmpty()) {
 					list.add(obj);
 				} else {
 					if (categories.contains(term) || address.contains(term) || name.contains(term)) {
 						list.add(obj);
-					}					
+					}
 				}
 			} // end of for loop
 			return new JSONArray(list);
 		} catch (Exception e) {
-			// print result message in console
 			System.out.println(e.getMessage());
 		}
 		return null;
 	}
 
-	@Override // Insert a new row in history table
-	public boolean setVisitedRestaurantsList(String userID, List<String> businessIDList) {
+	@Override
+	public void setVisitedRestaurantsList(String userID, List<String> businessIDList) {
 		// TODO Auto-generated method stub
-		String sql = "INSERT INTO history (user_id, business_id) VALUES (?, ?)";
+		String query = "INSERT INTO history (user_id, business_id) VALUES (?, ?)";
 		try {
-			PreparedStatement statement = connect.prepareStatement(sql);
+			PreparedStatement statement = connect.prepareStatement(query);
 			for (String businessID : businessIDList) {
 				statement.setString(1, userID);
 				statement.setString(2, businessID);
@@ -139,15 +138,15 @@ public class MySQL implements DataConnection {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return false;
+		return;
 	}
 
 	@Override // Delete an existed row
 	public void unsetVisitedRestaurantsList(String userID, List<String> businessIDList) {
 		// TODO Auto-generated method stub
-		String sql = "DELETE from history WHERE user_id = ? and business_id = ?";
+		String query = "DELETE FROM history WHERE user_id = ? and business_id = ?";
 		try {
-			PreparedStatement statement = connect.prepareStatement(sql);
+			PreparedStatement statement = connect.prepareStatement(query);
 			for (String businessID : businessIDList) {
 				statement.setString(1, userID);
 				statement.setString(2, businessID);
@@ -161,8 +160,8 @@ public class MySQL implements DataConnection {
 	@Override
 	public Set<String> getVisitedRestaurantsList(String userID) {
 		// TODO Auto-generated method stub
-//		return null;
-		Set<String> visitedRestaurantSet = new HashSet<>();
+		// return null;
+		Set<String> visitedRestaurantSet = new HashSet<String>();
 		try {
 			String sql = "SELECT business_id from history WHERE user_id = ?";
 			PreparedStatement statement = connect.prepareStatement(sql);
@@ -179,21 +178,27 @@ public class MySQL implements DataConnection {
 	}
 
 	@Override
-	public JSONObject getRestaurantsByID(String businessID, boolean isVisted) {
+	public JSONObject getRestaurantsByID(String businessID, boolean isVisited) {
 		// TODO Auto-generated method stub
 //		return null;
 		try {
-			String sql = "SELECT * from restaurants WHERE business_id = ?";
+			String sql = "SELECT * from restaurants where business_id = ?";
 			PreparedStatement statement = connect.prepareStatement(sql);
 			statement.setString(1, businessID);
 			ResultSet result = statement.executeQuery();
 			if (result.next()) {
-				Restaurant restaurant = new Restaurant(result.getString("business_id"), result.getString("name"), result.getString("categories"), result.getString("city"), result.getString("state"), result.getFloat("rating"), result.getString("full_address"), result.getFloat("latitude"), result.getFloat("longitude"), result.getString("image_url"), result.getString("url"));
+				Restaurant restaurant = new Restaurant(
+						result.getString("business_id"), result.getString("name"),
+						result.getString("categories"), result.getString("city"),
+						result.getString("state"), result.getFloat("stars"),
+						result.getString("full_address"), result.getFloat("latitude"),
+						result.getFloat("longitude"), result.getString("image_url"),
+						result.getString("url"));
 				JSONObject obj = restaurant.toJSONObject();
-				obj.put("is_visited", isVisted);
+				obj.put("is_visited", isVisited);
 				return obj;
 			}
-		} catch (Exception e) {
+		} catch (Exception e) { /* report an error */
 			System.out.println(e.getMessage());
 		}
 		return null;
@@ -202,7 +207,7 @@ public class MySQL implements DataConnection {
 	@Override
 	public JSONArray recommendRestaurants(String userID) {
 		// TODO Auto-generated method stub
-		// return null;
+//		return null;
 		try {
 			if (connect == null) {
 				return null;
@@ -224,10 +229,11 @@ public class MySQL implements DataConnection {
 			Set<JSONObject> result = new HashSet<>();
 			int count = 0;
 			for (String businessID : categoriedRestaurants) {
+				// Perform filtering
 				if (!visitedRestaurants.contains(businessID)) {
 					result.add(getRestaurantsByID(businessID, false));
 					count++;
-					if (count > MAX_RECOMMENDED_RESTAURANTS) {
+					if (count >= MAX_RECOMMENDED_RESTAURANTS) {
 						break;
 					}
 				}
@@ -242,9 +248,9 @@ public class MySQL implements DataConnection {
 	@Override
 	public Set<String> getCategories(String businessID) {
 		// TODO Auto-generated method stub
-		// return null;
+//		return null;
 		try {
-			String sql = "SELECT categories from restaurants WHERE business_id = ?";
+			String sql = "SELECT categories from restaurants WHERE business_id = ? ";
 			PreparedStatement statement = connect.prepareStatement(sql);
 			statement.setString(1, businessID);
 			ResultSet result = statement.executeQuery();
@@ -252,6 +258,7 @@ public class MySQL implements DataConnection {
 				Set<String> categorySet = new HashSet<>();
 				String[] categoryArray = result.getString("categories").split(",");
 				for (String category : categoryArray) {
+					// ' Japanese ' -> 'Japanese'
 					categorySet.add(category.trim());
 				}
 				return categorySet;
@@ -265,9 +272,11 @@ public class MySQL implements DataConnection {
 	@Override
 	public Set<String> getBusinessID(String category) {
 		// TODO Auto-generated method stub
-		// return null;
+//		return null;
 		Set<String> businessIDSet = new HashSet<>();
 		try {
+			// if category = Chinese, categories = Chinese, Korean, Japanese,
+			// it's a match
 			String sql = "SELECT business_id from restaurants WHERE categories LIKE ?";
 			PreparedStatement statement = connect.prepareStatement(sql);
 			statement.setString(1, "%" + category + "%");
@@ -290,6 +299,7 @@ public class MySQL implements DataConnection {
 			if (connect == null) {
 				return false;
 			}
+
 			String sql = "SELECT user_id from users WHERE user_id = ? and password = ?";
 			PreparedStatement statement = connect.prepareStatement(sql);
 			statement.setString(1, userID);
@@ -299,7 +309,6 @@ public class MySQL implements DataConnection {
 				return true;
 			}
 		} catch (Exception e) {
-			// e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
 		return false;
@@ -307,7 +316,6 @@ public class MySQL implements DataConnection {
 
 	@Override
 	public String getUserName(String userID) {
-		// TODO Auto-generated method stub
 		// return null;
 		String name = "";
 		try {
@@ -317,7 +325,7 @@ public class MySQL implements DataConnection {
 				statement.setString(1, userID);
 				ResultSet result = statement.executeQuery();
 				if (result.next()) {
-					name += result.getString("first_name") + result.getString("last_name");
+					name += result.getString("first_name") + " " + result.getString("last_name");
 				}
 			}
 		} catch (Exception e) {
@@ -325,5 +333,4 @@ public class MySQL implements DataConnection {
 		}
 		return name;
 	}
-
 }

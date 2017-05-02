@@ -44,20 +44,15 @@ public class Restaurant {
 	private String businessID;
 	private String name;
 	private String categories;
-	private double rating;
 	private String city;
 	private String state;
-	private String address;	
+	private String address;
+	private double stars;
 	private double latitude;
 	private double longitude;
 	private String imageURL;
 	private String url;
 
-	/**
-	 * TO convert a JSONObject fetched from Yelp API to a converted restaurant
-	 * object
-	 * 
-	 */
 	public Restaurant(JSONObject object) {
 		try {
 			if (object != null) {
@@ -71,49 +66,50 @@ public class Restaurant {
 				this.categories = String.join(",", list);
 				this.name = object.getString("name");
 				this.imageURL = object.getString("image_url");
-				this.rating = object.getDouble("rating");
+				this.stars = object.getDouble("rating");
 				JSONObject coordinates = (JSONObject) object.get("coordinates");
 				this.latitude = coordinates.getDouble("latitude");
 				this.longitude = coordinates.getDouble("longitude");
 				JSONObject location = (JSONObject) object.get("location");
 				this.city = location.getString("city");
 				this.state = location.getString("state");
-				this.address = jsonArrayToString((JSONArray) location.get("display_address")); // display_address
+				this.address = jsonArrayToString((JSONArray) location.get("display_address"));
 				this.url = object.getString("url");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	// do not automatically generate this constructor
 
-	//constructor, used in MySQL class
-	public Restaurant(String businessID, String name, String categories, String city, String state, double rating,
+	public Restaurant(String businessID, String name, String categories, String city, String state, double stars,
 			String address, double latitude, double longitude, String imageURL, String url) {
+
 		this.businessID = businessID;
 		this.name = name;
 		this.categories = categories;
 		this.city = city;
 		this.state = state;
 		this.address = address;
-		this.rating = rating;
+		this.stars = stars;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.imageURL = imageURL;
 		this.url = url;
 	}
 
-	public JSONObject toJSONObject() { //// Convert a Restaurant object to a JSONObject
+	public JSONObject toJSONObject() {
 		JSONObject obj = new JSONObject();
 		try {
 			obj.put("business_id", businessID);
 			obj.put("name", name);
-			obj.put("categories", stringToJSONArray(categories));
-			obj.put("rating", rating);
-			obj.put("city", city);
-			obj.put("state", state);
-			obj.put("full_address", address);
+			obj.put("stars", stars);
 			obj.put("latitude", latitude);
 			obj.put("longitude", longitude);
+			obj.put("full_address", address);
+			obj.put("city", city);
+			obj.put("state", state);
+			obj.put("categories", stringToJSONArray(categories));
 			obj.put("image_url", imageURL);
 			obj.put("url", url);
 		} catch (JSONException e) {
@@ -122,16 +118,11 @@ public class Restaurant {
 		return obj;
 	}
 
-	/**
-	 * 
-	 * accessor && mutator SETTERs and GETTERs
-	 * 
-	 */
 	public String getBusinessID() {
 		return businessID;
 	}
 
-	public void setBusinessID(String businessID) {
+	public void setBusinessId(String businessID) {
 		this.businessID = businessID;
 	}
 
@@ -175,12 +166,12 @@ public class Restaurant {
 		this.address = address;
 	}
 
-	public double getRating() {
-		return rating;
+	public double getStars() {
+		return stars;
 	}
 
-	public void setRating(double rating) {
-		this.rating = rating;
+	public void setStars(double stars) {
+		this.stars = stars;
 	}
 
 	public double getLatitude() {

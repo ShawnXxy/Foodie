@@ -1,27 +1,27 @@
-function callGreet () {
-    var today = new Date();
-    var hourNow = today.getHours();
-    var greeting;
-
-    if (hourNow > 18 && hourNow < 24) {
-        greeting = "Good evening";
-    } else if (hourNow > 12 && hourNow < 18) {
-        greeting = "Good afternoon";
-    } else if (hourNow > 0 && hourNow < 12) {
-        greeting = "Good morning";
-    } else {
-        greeting = "Welcome";
-    }
-    document.getElementById("welcome-msg").innerHTML = greeting;
-};
-callGreet();
+//function callGreet () {
+//    var today = new Date();
+//    var hourNow = today.getHours();
+//    var greeting;
+//
+//    if (hourNow > 18) {
+//        greeting = "Good evening";
+//    } else if (hourNow > 12) {
+//        greeting = "Good afternoon";
+//    } else if (hourNow > 0) {
+//        greeting = "Good morning";
+//    } else {
+//        greeting = "Welcome";
+//    }
+//    document.getElementById("welcome-msg").innerHTML = greeting;
+//};
+//callGreet();
 
 function meal () {
     var today = new Date();
     var hourNow = today.getHours();
     var meal;
 
-    if (hourNow > 16 && hourNow < 20) {
+    if (hourNow > 16 && hourNow < 21) {
         meal = "Dinner";
     } else if (hourNow > 11 && hourNow < 14) {
     	meal = "Lunch";

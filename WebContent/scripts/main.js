@@ -1,18 +1,18 @@
 (function() {
-	/**
-	 * DECLARE variables
-	 */
+
+	/***********
+	 * Variables
+	 **************/
 	var user_id = '';
 	var user_fullname = '';
-	// FHSU coordinates
-	var lat = 38.8799294;
-	var lon = -99.3349108;
-	
-	/**
+	var lon = -74.009508;
+	var lat = 40.7393257;
+
+	/********************
 	 * INITIALING PAGE
-	 */
+	 ***********************/
 	function init() {
-		// Register even liseners.
+		// Register event liseners.
 		newDOM('login-btn').addEventListener('click', login);// login() defined at LOGIN SETTING
 		newDOM('nearby-btn').addEventListener('click', loadNearbyRestaurants);// defined in RESTAURANTS SETTING
 		newDOM('fav-btn').addEventListener('click', loadFavoriteRestaurants); // defined in RESTAURANTS SETTING
@@ -26,10 +26,10 @@
 			name : 'Xiangyu Xiao'
 		});
 	} // end of init()
-	
-	/**
+
+	/*******************
 	 * SESSION SETTING
-	 */
+	 *********************/
 	function validateSession() {
 		// The request parameters
 		var url = './LoginServlet';
@@ -40,12 +40,12 @@
 
 		// make AJAX call
 		ajax('GET', url, req, function(res) {
-			// session is still valid
+		// session is still valid	
 			var result = JSON.parse(res);
-			if (result.status == 'OK') {
+			if (result.status === 'OK') {
 				onSessionValid(result);
 			}
-		});// end ajax call
+		}); // end ajax call
 	} // end of validateSession()
 
 	function onSessionValid(result) {
@@ -59,7 +59,24 @@
 		var welcomeMsg = newDOM('welcome-msg');
 		var logoutBtn = newDOM('logout-link');
 
-		welcomeMsg.innerHTML = 'Welcome, ' + user_fullname;
+		function callGreet() {
+			var greeting;
+		    var today = new Date();
+		    var hourNow = today.getHours();
+		    if (hourNow > 18) {
+		        greeting = "Good evening, " + user_fullname;
+		    } else if (hourNow > 12) {
+		        greeting = "Good afternoon, " + user_fullname;
+		    } else if (hourNow > 0) {
+		        greeting = "Good morning, " + user_fullname;
+		    } else {
+		        greeting = "Welcome";
+		    }
+		    document.getElementById("welcome-msg").innerHTML = greeting;
+		};
+//		callGreet();
+//		welcomeMsg.innerHTML = greeting + ', ' + user_fullname;
+//		welcomeMsg.innerHTML = 'Welcome, ' + user_fullname;
 
 		// if login successfull, show content
 		// showElement() & hideElement() are defined at DISPLAY SETTING
@@ -68,10 +85,9 @@
 		showElement(avatar);
 		showElement(welcomeMsg);
 		showElement(logoutBtn, 'inline-block');
-
 		hideElement(loginForm);
 
-		initGeoLocation(); // defined at GEO INFO SETTING
+		initGeoLocation();// defined at GEO INFO SETTING
 	} // end of onSessionValid()
 
 	function onSessionInvalid() {
@@ -81,6 +97,7 @@
 		var avatar = newDOM('avatar');
 		var welcomeMsg = newDOM('welcome-msg');
 		var logoutBtn = newDOM('logout-link');
+		
 		// hide content if failed logged in
 		hideElement(restaurantNav);
 		hideElement(restaurantList);
@@ -91,9 +108,9 @@
 		showElement(loginForm);
 	}
 	
-	/**
+	/*****************************
 	 * GEOLOCATION INIT SETTING
-	 */
+	 *******************************/
 	function initGeoLocation() {
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(onPositionUpdated,
@@ -102,7 +119,7 @@
 					});
 			showLoadingMessage('Retrieving your location...'); // function is defined at DISPLAY SETTING
 		} else {
-			onLoadPositionFailed();// function is defined below
+			onLoadPositionFailed(); // function is defined below
 		}
 	}
 
@@ -119,9 +136,9 @@
 		getLocationFromIP();
 	}
 
-	// Get location from http://ipinfo.io/json
 	function getLocationFromIP() {
-		var url = 'http://ipinfo.io/json';
+		// Get location from http://ipinfo.io/json
+		var url = 'http://ipinfo.io/json'
 		var req = null;
 		ajax('GET', url, req, function(res) {
 			// session is still valid
@@ -136,10 +153,10 @@
 			loadNearbyRestaurants(); // function defined in below at RESTAURANTS part
 		}); // end of ajax
 	} // end getLocationFromIP()
-	
-	/**
+
+	/********************
 	 * LOGIN SETTING
-	 */
+	 **********************/
 	function login() {
 		var username = newDOM('username').value;
 		var password = newDOM('password').value;
@@ -152,7 +169,7 @@
 		var req = JSON.stringify({});
 
 		ajax('POST', url + '?' + params, req, function(res) {
-			// successful callback
+		// successful callback	
 			var result = JSON.parse(res);
 			// successfully logged in
 			if (result.status === 'OK') {
@@ -171,19 +188,19 @@
 		newDOM('login-error').innerHTML = '';
 	}
 
-	/**
+	/***************************************************
 	 * DISPLAY SETTING
 	 * 
 	 * @param btnId -
 	 *            The id of the navigation button
-	 */
+	 *********************************************************/
 	function activeBtn(btnId) {
 		var btns = document.getElementsByClassName('main-nav-btn');
 
 		// deactivate all navigation buttons
 		for (var i = 0; i < btns.length; i++) {
 			btns[i].className = btns[i].className.replace(/\bactive\b/, '');
-		} // regular expression used here
+		}
 
 		// active the one that has id = btnId
 		var btn = newDOM(btnId);
@@ -213,23 +230,23 @@
 	}
 
 	function showElement(element, style) {
-//		var displayStyle = style ? style : 'block';
-		var displayStyle;
-		if (style) {
-			displayStyle = style;
-		} else {
-			displayStyle = 'block';
-		}
+		// var displayStyle;
+		// if (style) {
+		// 	displayStyle = style;
+		// } else {
+		// 	displayStyle = 'block';
+		// }
+		var displayStyle = style ? style : 'block';		
 		element.style.display = displayStyle;
 	}
 	
-	/**
+	/************************************************************
 	 * HELPER function
-	 * 
+	 *
 	 * newDOM() that creates a new DOM element <tag options...>
-	 * 
+	 *
 	 * ajax() connection function
-	 * 
+	 *
 	 * @param method -
 	 *            GET|POST|PUT|DELETE
 	 * @param url -
@@ -238,7 +255,7 @@
 	 *            This the successful callback
 	 * @param errorHandler -
 	 *            This is the failed callback
-	 */
+	 ***************************************************************/
 	function newDOM(tag, options) {
 		if (!options) {
 			return document.getElementById(tag);
@@ -252,9 +269,12 @@
 		return element;
 	} // end of newDOM()
 
+	// AJAX
 	function ajax(method, url, data, callback, errorHandler) {
 		var xhr = new XMLHttpRequest();
+
 		xhr.open(method, url, true);
+
 		xhr.onload = function() {
 			switch (xhr.status) {
 			case 200:
@@ -280,17 +300,17 @@
 					"application/json;charset=utf-8");
 			xhr.send(data);
 		}
-	}// end of ajax()
+	} // end of ajax()
 
-	/**
+	/*********************************************
 	 * RESTAURANTS
-	 */
+	 *******************************************/
 	function loadNearbyRestaurants() {
-		console.log('loadNearbyRestaurants');
-		activeBtn('nearby-btn'); // defined in DISPLAY SETTING
+		//console.log('loadNearbyRestaurants');
+		activeBtn('nearby-btn');
 
 		// The request parameters
-		var url = './search';
+		var url = './restaurants';
 		var params = 'user_id=' + user_id + '&lat=' + lat + '&lon=' + lon;
 		var req = JSON.stringify({});
 
@@ -299,9 +319,9 @@
 
 		// make AJAX call
 		ajax('GET', url + '?' + params, req, function(res) {
-			// successful callback
+		// successful callback		
 			var restaurants = JSON.parse(res);
-			if (restaurants == null || restaurants.length == 0) {
+			if (restaurants == null || restaurants.length === 0) {
 				showWarningMessage('No nearby restaurant.');
 			} else {
 				listRestaurants(restaurants); // defined in RESTAURANTS part below
@@ -311,8 +331,7 @@
 		}); // end ajax()
 	} // end loadNearbyRestaurants()
 
-	function loadFavoriteRestaurants(event) {
-//		event.preventDefault();
+	function loadFavoriteRestaurants() {
 		activeBtn('fav-btn');
 
 		// The request parameters
@@ -326,7 +345,7 @@
 		// make AJAX call
 		ajax('GET', url + '?' + params, req, function(res) {
 			var restaurants = JSON.parse(res);
-			if (restaurants == null || restaurants.length == 0) {
+			if (restaurants == null || restaurants.length === 0) {
 				showWarningMessage('No favorite restaurant.');
 			} else {
 				listRestaurants(restaurants);
@@ -349,14 +368,15 @@
 
 		// make AJAX call
 		ajax('GET', url + '?' + params, req, function(res) {
-					// successful callback
+				// successful callback			
 					var restaurants = JSON.parse(res);
-					if (restaurants == null || restaurants.length == 0) {
+					if (restaurants == null || restaurants.length === 0) {
 						showWarningMessage('No recommended restaurant. Make sure you have favorites.');
 					} else {
 						listRestaurants(restaurants);
 					}
 				}, function() {
+				// failed callback			
 					showErrorMessage('Cannot load recommended restaurants.');
 				}); // end ajax()
 	} // end loadRecommendedRestaurants()
@@ -365,41 +385,43 @@
 		// Check whether this restaurant has been visited or not
 		var li = newDOM('restaurant-' + business_id);
 		var favIcon = newDOM('fav-icon-' + business_id);
-		var isVisited = li.dataset.visited != 'true';
+		var isVisited = li.dataset.visited !== 'true';
 
 		// The request parameters
 		var url = './history';
 		var req = JSON.stringify({
 			user_id : user_id,
-			visited : [business_id]
+			visited : [ business_id ]
 		});
-//		var method = isVisited ? 'POST' : 'DELETE';
-		var method;
-		if (isVisited) {
-			method = 'POST';
-		} else {
-			method = "DELETE";
-		}
+		// var method;
+		// if (isVisited) {
+		// 	method = 'POST';
+		// } else {
+		// 	method = "DELETE";
+		// }
+		var method = isVisited ? 'POST' : 'DELETE';
 
 		ajax(method, url, req, function(res) {
-					// successful callback
+				// successful callback			
 					var result = JSON.parse(res);
-					if (result.status == 'OK') {
+					if (result.status === 'OK') {
 						li.dataset.visited = isVisited;
-//						favIcon.className = isVisited ? 'fa fa-heart' : 'fa fa-heart-o';
-						 if (isVisited) {
-							 favIcon.className = 'fa fa-heart';
-						 } else {
-							 favIcon.className = 'fa fa-heart-o';
-						 }
+						//  if (isVisited) {
+						// 	 favIcon.className = 'fa fa-heart';
+						//  } else {
+						// 	 favIcon.className = 'fa fa-heart-o';
+						//  }
+						favIcon.className = isVisited ? 'fa fa-heart'
+								: 'fa fa-heart-o';
 					}
-				});// end ajax()
+				}); // end ajax()
 	} // end changeFavoriteRestaurant()
 
 	function listRestaurants(restaurants) {
 		// Clear the current results
 		var restaurantList = newDOM('restaurant-list');
 		restaurantList.innerHTML = '';
+
 		for (var i = 0; i < restaurants.length; i++) {
 			addRestaurant(restaurantList, restaurants[i]);
 		}
@@ -425,6 +447,7 @@
 
 		// section
 		var section = newDOM('div', {});
+
 		// title
 		var title = newDOM('a', {
 			href : restaurant.url,
@@ -473,6 +496,7 @@
 		favLink.onclick = function() {
 			changeFavoriteRestaurant(business_id);
 		};
+
 		favLink.appendChild(newDOM('i', {
 			id : 'fav-icon-' + business_id,
 			className : restaurant.is_visited ? 'fa fa-heart' : 'fa fa-heart-o'
@@ -483,4 +507,6 @@
 
 	init();
 
-}) (); // END
+})();
+
+// END
