@@ -85,6 +85,7 @@ public class SearchRestaurants extends HttpServlet {
 		DataConnection connection = new MySQL();
 		//MongoDB
 //		DBConnection connection = new MongoDBConnection();
+		
 //		try {
 			if (request.getParameterMap().containsKey("lat")
 					&& request.getParameterMap().containsKey("user_id")

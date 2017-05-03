@@ -215,7 +215,7 @@ public class MySQL implements DataConnection {
 			}
 			// STEP 3: Given all these categories, find restaurants with these categories from restaurants table
 			Set<String> categoriedRestaurants = new HashSet<>();
-			for (String category : categoriedRestaurants) {
+			for (String category : categorySet) {
 				Set<String> categoriedBusinessID = getBusinessID(category);
 				categoriedRestaurants.addAll(categoriedBusinessID);
 			}
