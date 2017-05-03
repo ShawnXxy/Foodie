@@ -290,7 +290,8 @@ public class MySQL implements DataConnection {
 			if (connect == null) {
 				return false;
 			}
-
+			
+			//incase hacker frapped sql command
 //			String sql = "SELECT user_id from users WHERE user_id='" + userID + "' and password='" + password + "'";
 //			System.out.println(sql);
 //			Statement stmt = connect.createStatement();

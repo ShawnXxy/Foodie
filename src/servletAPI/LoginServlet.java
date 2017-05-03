@@ -36,11 +36,12 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
+//		response.getWriter().append("Served at: ").append(request.getContextPath());	
 		 try {
+			 //HttpSession getSession() ¨C This method always returns an HttpSession object. It returns the session object attached with the request, if the request has no session attached, then it creates a new session and return it.
 	   		 JSONObject msg = new JSONObject();
 	   		 HttpSession session = request.getSession();
+	   		 //getAttribute(String name) ¨C Returns the object bound with the specified name in this session, or null if no object is bound under the name. Some other methods to work with Session attributes are getAttributeNames(), removeAttribute(String name) and setAttribute(String name, Object value).
 	   		 if (session.getAttribute("user") == null) {
 	   			 response.setStatus(403);
 	   			 msg.put("status", "Session Invalid");
@@ -56,8 +57,7 @@ public class LoginServlet extends HttpServlet {
 	   		 // TODO Auto-generated catch block
 	   		 e.printStackTrace();
 	   	 }
-
-	}
+	} // end of doGet()
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

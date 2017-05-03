@@ -87,13 +87,13 @@ public class SearchRestaurants extends HttpServlet {
 //		DBConnection connection = new MongoDBConnection();
 //		try {
 			if (request.getParameterMap().containsKey("lat")
-//					&& request.getParameterMap().containsKey("user_id")
+					&& request.getParameterMap().containsKey("user_id")
 					&& request.getParameterMap().containsKey("lon")) {
 				// term is null or empty by default
 				String term = request.getParameter("term");
-				//String userID = request.getParameter("user_id");
+				String userID = request.getParameter("user_id");
 				//String userID = (String) session.getAttribute("user");
-	            String userID = "1111"; //fake user ID for test
+//	            String userID = "1111"; //fake user ID for test
 				double lat = Double.parseDouble(request.getParameter("lat"));
 				double lon = Double.parseDouble(request.getParameter("lon"));
 				array = connection.searchRestaurants(userID, lat, lon, term);
@@ -115,6 +115,13 @@ public class SearchRestaurants extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+		
+		// allow access only if session exists
+		HttpSession session = request.getSession();
+		if (session.getAttribute("user") == null) {
+			response.setStatus(403);
+			return;
+		}
 	}
 
 }
