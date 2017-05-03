@@ -19,12 +19,12 @@
 		newDOM('recommend-btn').addEventListener('click',
 				loadRecommendedRestaurants); // defined in RESTAURANTS SETTING
 
-		// validateSession(); // defined at SESSION SETTING
+		 validateSession(); // defined at SESSION SETTING
 		// fake users info used for test
-		onSessionValid({
-			user_id : '1111',
-			name : 'Xiangyu Xiao'
-		});
+//		onSessionValid({
+//			user_id : '1111',
+//			name : 'Xiangyu Xiao'
+//		});
 	} // end of init()
 
 	/*******************
@@ -74,7 +74,7 @@
 		    }
 		    document.getElementById("welcome-msg").innerHTML = greeting;
 		};
-//		callGreet();
+		callGreet();
 //		welcomeMsg.innerHTML = greeting + ', ' + user_fullname;
 //		welcomeMsg.innerHTML = 'Welcome, ' + user_fullname;
 

@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -72,6 +73,13 @@ public class SearchRestaurants extends HttpServlet {
 //	out.flush(); //Flush the output stream and send the data to the client side
 //	out.close(); //Close this response
 		
+		// allow access only if session exists
+		HttpSession session = request.getSession();
+		if (session.getAttribute("user") == null) {
+			response.setStatus(403);
+			return;
+		}
+
 		JSONArray array = new JSONArray();
 		//MySQL
 		DataConnection connection = new MySQL();

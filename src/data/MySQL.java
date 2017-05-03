@@ -22,7 +22,7 @@ public class MySQL implements DataConnection {
 	 * Query MySQL during the runtime
 	 */
 	private Connection connect = null;
-	private static final int MAX_RECOMMENDED_RESTAURANTS = 10;
+	private static final int MAX_RECOMMENDED_RESTAURANTS = 20;
 
 	public MySQL() {
 		this(Configure.URL);
@@ -187,13 +187,7 @@ public class MySQL implements DataConnection {
 			statement.setString(1, businessID);
 			ResultSet result = statement.executeQuery();
 			if (result.next()) {
-				Restaurant restaurant = new Restaurant(
-						result.getString("business_id"), result.getString("name"),
-						result.getString("categories"), result.getString("city"),
-						result.getString("state"), result.getFloat("stars"),
-						result.getString("full_address"), result.getFloat("latitude"),
-						result.getFloat("longitude"), result.getString("image_url"),
-						result.getString("url"));
+				Restaurant restaurant = new Restaurant(result.getString("business_id"), result.getString("name"), result.getString("categories"), result.getString("city"), result.getString("state"), result.getFloat("stars"), result.getString("full_address"), result.getFloat("latitude"), result.getFloat("longitude"), result.getString("image_url"), result.getString("url"));
 				JSONObject obj = restaurant.toJSONObject();
 				obj.put("is_visited", isVisited);
 				return obj;
@@ -258,7 +252,6 @@ public class MySQL implements DataConnection {
 				Set<String> categorySet = new HashSet<>();
 				String[] categoryArray = result.getString("categories").split(",");
 				for (String category : categoryArray) {
-					// ' Japanese ' -> 'Japanese'
 					categorySet.add(category.trim());
 				}
 				return categorySet;
@@ -275,8 +268,6 @@ public class MySQL implements DataConnection {
 //		return null;
 		Set<String> businessIDSet = new HashSet<>();
 		try {
-			// if category = Chinese, categories = Chinese, Korean, Japanese,
-			// it's a match
 			String sql = "SELECT business_id from restaurants WHERE categories LIKE ?";
 			PreparedStatement statement = connect.prepareStatement(sql);
 			statement.setString(1, "%" + category + "%");
@@ -300,11 +291,17 @@ public class MySQL implements DataConnection {
 				return false;
 			}
 
+//			String sql = "SELECT user_id from users WHERE user_id='" + userID + "' and password='" + password + "'";
+//			System.out.println(sql);
+//			Statement stmt = connect.createStatement();
+//			ResultSet rs = stmt.executeQuery(sql);
+
 			String sql = "SELECT user_id from users WHERE user_id = ? and password = ?";
 			PreparedStatement statement = connect.prepareStatement(sql);
 			statement.setString(1, userID);
 			statement.setString(2, password);
 			ResultSet result = statement.executeQuery();
+
 			if (result.next()) {
 				return true;
 			}
