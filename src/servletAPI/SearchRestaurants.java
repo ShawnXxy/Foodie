@@ -92,8 +92,8 @@ public class SearchRestaurants extends HttpServlet {
 					&& request.getParameterMap().containsKey("lon")) {
 				// term is null or empty by default
 				String term = request.getParameter("term");
-				String userID = request.getParameter("user_id");
-				//String userID = (String) session.getAttribute("user");
+//				String userID = request.getParameter("user_id");
+				String userID = (String) session.getAttribute("user"); // Safer method
 //	            String userID = "1111"; //fake user ID for test
 				double lat = Double.parseDouble(request.getParameter("lat"));
 				double lon = Double.parseDouble(request.getParameter("lon"));

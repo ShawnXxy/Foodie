@@ -56,7 +56,8 @@ public class VisitHistory extends HttpServlet {
 //			private static DBConnection connection = new MongoDBConnection();
 			JSONArray array = null;
 			if (request.getParameterMap().containsKey("user_id")) {
-				String userID= request.getParameter("user_id");
+//				String userID= request.getParameter("user_id");
+				String userID = (String) session.getAttribute("user"); // Safer method
 				Set<String> visited_businessIDs = connection.getVisitedRestaurantsList(userID);
 				array = new JSONArray();
 				for (String id : visited_businessIDs) {
