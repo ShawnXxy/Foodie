@@ -111,7 +111,7 @@ ul {
 /**
  * login form
  */
-#login-form {
+#login-form, #contact-form {
   color: #624630;
   margin: 0px auto;
   overflow: auto;
@@ -119,11 +119,11 @@ ul {
   width: 300px;
 }
 
-#login-form label {
+#login-form label, #contact-form lable {
   display: block;
 }
 
-#login-form input {
+#login-form input, #contact-form input, #contact-form textarea {
   border: none;
   display: block;
   margin-bottom: 10px;
@@ -131,7 +131,7 @@ ul {
   width: 100%;
 }
 
-#login-form button {
+#login-form button, #contact-form button {
   cursor: pointer;
   float: right;
   padding: 8px 20px;
