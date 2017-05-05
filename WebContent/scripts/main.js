@@ -13,6 +13,7 @@
 	 ***********************/
 	function init() {
 		// Register event liseners.
+		newDOM('register-btn').addEventListener('click', register);
 		newDOM('login-btn').addEventListener('click', login);// login() defined at LOGIN SETTING
 		newDOM('nearby-btn').addEventListener('click', loadNearbyRestaurants);// defined in RESTAURANTS SETTING
 		newDOM('fav-btn').addEventListener('click', loadFavoriteRestaurants); // defined in RESTAURANTS SETTING
@@ -188,6 +189,28 @@
 		newDOM('login-error').innerHTML = '';
 	}
 
+	function register() {
+		var username = newDOM('username').value;
+		var password = newDOM('password').value;
+		// MD5 hash
+		password = md5(username + md5(password));
+
+		// The request parameters
+		var url = './Register';
+		var params = 'user_id=' + username + '&password=' + password;
+		var req = JSON.stringify({});
+
+		ajax('POST', url + '?' + params, req, function(res) {
+		// successful callback	
+			var result = JSON.parse(res);
+			// successfully logged in
+			if (result.status === 'OK') {
+				onSessionValid(result);
+			}
+		}, function() {
+			showLoginError(); // defined below in this session
+		}); // end ajax call
+	} // end login()
 	/***************************************************
 	 * DISPLAY SETTING
 	 * 
