@@ -113,10 +113,10 @@
 	 * GEOLOCATION INIT SETTING
 	 *******************************/
 	function initGeoLocation() {
-		if (navigator.geolocation) {
+		if (navigator.geolocation) { //https://dev.w3.org/geo/api/spec-source.html
 			navigator.geolocation.getCurrentPosition(onPositionUpdated,
 					onLoadPositionFailed, {
-						maximumAge : 60000
+						maximumAge : 60000 // By using the 'maximumAge' option above, the position object is guaranteed to be at most 10 minutes old.
 					});
 			showLoadingMessage('Retrieving your location...'); // function is defined at DISPLAY SETTING
 		} else {
@@ -326,7 +326,9 @@
 	} // end of ajax()
 
 	/*********************************************
+	 * 
 	 * RESTAURANTS
+	 * 
 	 *******************************************/
 	function loadNearbyRestaurants() {
 		//console.log('loadNearbyRestaurants');
@@ -394,7 +396,7 @@
 				// successful callback			
 					var restaurants = JSON.parse(res);
 					if (restaurants == null || restaurants.length === 0) {
-						showWarningMessage('No recommended restaurant. Make sure you have favorites.');
+						showWarningMessage('No recommended for now. Make sure you have favorites, or try out nearby restaurants.');
 					} else {
 						listRestaurants(restaurants);
 					}

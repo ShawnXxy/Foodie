@@ -109,7 +109,7 @@ ul {
 }
 
 /**
- * login form
+ * login form & contact form
  */
 #login-form, #contact-form {
   color: #624630;
@@ -119,11 +119,15 @@ ul {
   width: 300px;
 }
 
-#login-form label, #contact-form lable {
+#contact-form {
+  width: 700px;
+}
+
+#login-form label {
   display: block;
 }
 
-#login-form input, #contact-form input, #contact-form textarea {
+#login-form input {
   border: none;
   display: block;
   margin-bottom: 10px;

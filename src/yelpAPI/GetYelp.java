@@ -140,6 +140,6 @@ public class GetYelp {// initialize the connection with Yelp Developer account, 
 		//FHSU
 		queryAPI(yelp, 38.8799294, -99.3349108);
 		//SF
-//		queryAPI(yelp, 37.38, -122.08);
+		queryAPI(yelp, 37.38, -122.08);
 	}
 }

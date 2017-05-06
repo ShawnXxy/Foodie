@@ -57,7 +57,10 @@ public class RecommendRestaurants extends HttpServlet {
 //		JSONArray array = new JSONArray();	
 		JSONArray array = null;
 //		try {
-			if (request.getParameterMap().containsKey("user_id")) {
+			if (request.getParameterMap().containsKey("user_id") 
+//					&& request.getParameterMap().containsKey("lat")
+//					&& request.getParameterMap().containsKey("lon")
+				) {
 //				String userID = request.getParameter("user_id");
 				String userID = (String) session.getAttribute("user"); // Safer method
 				array = connection.recommendRestaurants(userID);
