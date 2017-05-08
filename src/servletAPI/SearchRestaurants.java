@@ -1,7 +1,10 @@
 package servletAPI;
 
 import java.io.IOException;
+
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,6 +34,11 @@ public class SearchRestaurants extends HttpServlet {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	/**
+	 * FOR ELASTIC SEARCH
+	 */
+	private static final Logger LOGGER = Logger.getLogger(SearchRestaurants.class.getName());
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -88,15 +96,16 @@ public class SearchRestaurants extends HttpServlet {
 		
 //		try {
 			if (request.getParameterMap().containsKey("lat")
-					&& request.getParameterMap().containsKey("user_id")
+					//&& request.getParameterMap().containsKey("user_id")
 					&& request.getParameterMap().containsKey("lon")) {
 				// term is null or empty by default
 				String term = request.getParameter("term");
-//				String userID = request.getParameter("user_id");
+				//String userID = request.getParameter("user_id");
 				String userID = (String) session.getAttribute("user"); // Safer method
 //	            String userID = "1111"; //fake user ID for test
 				double lat = Double.parseDouble(request.getParameter("lat"));
 				double lon = Double.parseDouble(request.getParameter("lon"));
+				LOGGER.log(Level.INFO, "lat:" + lat + ",lon:" + lon);
 				array = connection.searchRestaurants(userID, lat, lon, term);
 				//TEST: return fake restaurants
 //				array.put(new JSONObject().put("name", "Panda Express"));
