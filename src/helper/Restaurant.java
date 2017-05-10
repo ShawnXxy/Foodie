@@ -32,13 +32,17 @@ public class Restaurant {
 
 	// for front-end because front-end cannot read java class
 	public static JSONArray stringToJSONArray(String str) {
+		String[] strArray = str.split(",");
+		JSONArray ret = null;
 		try {
-			return new JSONArray("[" + parseString(str) + "]");
-
+//			return new JSONArray("[" + parseString(str) + "]");
+			ret = new JSONArray(strArray);
 		} catch (JSONException e) {
+			System.out.println("Error: stringToJSONArray "+str);
 			e.printStackTrace();
 		}
-		return null;
+//		return null;
+		return ret;
 	}
 
 	private String businessID;
@@ -67,10 +71,10 @@ public class Restaurant {
 				this.name = object.getString("name");
 				this.imageURL = object.getString("image_url");
 				this.stars = object.getDouble("rating");
+				JSONObject location = (JSONObject) object.get("location");
 				JSONObject coordinates = (JSONObject) object.get("coordinates");
 				this.latitude = coordinates.getDouble("latitude");
-				this.longitude = coordinates.getDouble("longitude");
-				JSONObject location = (JSONObject) object.get("location");
+				this.longitude = coordinates.getDouble("longitude");		
 				this.city = location.getString("city");
 				this.state = location.getString("state");
 				this.address = jsonArrayToString((JSONArray) location.get("display_address"));
