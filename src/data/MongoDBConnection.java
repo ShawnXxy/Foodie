@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.bson.Document;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.mongodb.MongoClient;
@@ -63,6 +64,18 @@ public class MongoDBConnection implements DataConnection {
 	@Override
 	public JSONObject getRestaurantsByID(String businessID, boolean isVisited) {
 		// TODO Auto-generated method stub
+//		return null;
+		FindIterable<Document> iterable = db.getCollection("restaurants").find(eq("business_id", businessID));
+		try {
+			JSONObject obj = new JSONObject(iterable.first().toJson());
+			String categoriesString = obj.getString("categories").replace("\"", "\\\"").replace("/", " or ");
+			JSONArray categoriesJSONArray = new JSONArray("[" + categoriesString + "]");
+			obj.put("categories", categoriesJSONArray);
+			obj.put("is_visited", isVisited);
+			return obj;
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
