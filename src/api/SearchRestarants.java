@@ -1,0 +1,72 @@
+package api;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class SearchRestarants
+ */
+@WebServlet("/restarants")
+public class SearchRestarants extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public SearchRestarants() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // TODO Auto-generated method stub
+        // response.getWriter().append("Served at: ").append(request.getContextPath());
+
+        /*
+         *  TEST Connection
+         */
+//        response.setContentType("application/json"); // tell browser that server is returning a response in a format of JSON
+//        response.addHeader("Access-Control-Allow-Origin", "*"); // allow all viewers to view this response
+//        // Create a PrintWriter from response such that we can add data to response
+//        String username = "";
+//        PrintWriter out = response.getWriter();
+//        if (request.getParameter("username") != null) {
+//            username = request.getParameter("username"); // Get the username sent from the client (user)
+//            out.print("Hello " + username); // In the output stream, add some magic
+//        }
+//        out.flush(); // Flush the output stream and send the data to the client side
+//        out.close(); // Close this response for good
+        
+        /*
+         *  TEST format
+         */
+//        response.setContentType("text/html"); // tell browser that server is returning a response in a format of html
+//        PrintWriter out = response.getWriter(); // Create a PrintWriter from a response such that we can add data to response
+//        out.println("<html><body>");
+//        out.println("<h1>This is a HTML page</h1>");
+//        out.println("</body></html>");
+//        out.flush();
+//        out.close();
+    }
+
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // TODO Auto-generated method stub
+        doGet(request, response);
+    }
+
+}
