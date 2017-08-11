@@ -17,8 +17,7 @@
 		newDOM('login-btn').addEventListener('click', login);// login() defined at LOGIN SETTING
 		newDOM('nearby-btn').addEventListener('click', loadNearbyRestaurants);// defined in RESTAURANTS SETTING
 		newDOM('fav-btn').addEventListener('click', loadFavoriteRestaurants); // defined in RESTAURANTS SETTING
-		newDOM('recommend-btn').addEventListener('click',
-				loadRecommendedRestaurants); // defined in RESTAURANTS SETTING
+		newDOM('recommend-btn').addEventListener('click', loadRecommendedRestaurants); // defined in RESTAURANTS SETTING
 
 		 validateSession(); // defined at SESSION SETTING
 		// fake users info used for test
@@ -211,6 +210,7 @@
 			showLoginError(); // defined below in this session
 		}); // end ajax call
 	} // end login()
+	
 	/***************************************************
 	 * DISPLAY SETTING
 	 * 

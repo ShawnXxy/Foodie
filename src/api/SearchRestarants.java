@@ -8,6 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Servlet implementation class SearchRestarants
  */
@@ -32,6 +36,21 @@ public class SearchRestarants extends HttpServlet {
         // TODO Auto-generated method stub
         // response.getWriter().append("Served at: ").append(request.getContextPath());
 
+        JSONArray  array = new JSONArray();
+        try {
+            if (request.getParameterMap().containsKey("user_id") && request.getParameterMap().containsKey("lat") && request.getParameterMap().containsKey("lon")) {
+                String userId = request.getParameter("user_id");
+                double lat = Double.parseDouble(request.getParameter("lat"));
+                double lon = Double.parseDouble(request.getParameter("lon"));
+                // return some fake restaurants
+                array.put(new JSONObject().put("name", "Panda Express"));
+                array.put(new JSONObject().put("name", "Hong Kong Express"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RpcParser.writeOutput(response, array);
+        
         /*
          *  TEST Connection
          */
@@ -56,6 +75,27 @@ public class SearchRestarants extends HttpServlet {
 //        out.println("<h1>This is a HTML page</h1>");
 //        out.println("</body></html>");
 //        out.flush();
+//        out.close();
+        
+        /*
+         *  TEST return
+         */
+//        response.setContentType("application/json"); // Tell browser that server is returning a response in a format of json
+//        response.addHeader("Access-Control-Allow-Origin", "*"); // Allow all viewers to view this response
+//        // Create a PrintWriter from response such that we can add data to response
+//        String username = "";
+//        if (request.getParameter("username") != null) {
+//            username = request.getParameter("username"); // Get the username sent from the client (user)
+//        }
+//        JSONObject obj = new JSONObject();
+//        try {
+//            obj.put("username", username);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        PrintWriter out = response.getWriter();
+//        out.print(obj);
+//        out.flush(); // Flush the output stream and send the data to the client side
 //        out.close();
     }
 
