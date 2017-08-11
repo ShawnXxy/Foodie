@@ -9,8 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+
+import db.DBConnection;
+import db.MySQLDBConnection;
 
 /**
  * Servlet implementation class SearchRestarants
@@ -35,21 +36,33 @@ public class SearchRestarants extends HttpServlet {
             throws ServletException, IOException {
         // TODO Auto-generated method stub
         // response.getWriter().append("Served at: ").append(request.getContextPath());
-
-        JSONArray  array = new JSONArray();
-        try {
-            if (request.getParameterMap().containsKey("user_id") && request.getParameterMap().containsKey("lat") && request.getParameterMap().containsKey("lon")) {
-                String userId = request.getParameter("user_id");
-                double lat = Double.parseDouble(request.getParameter("lat"));
-                double lon = Double.parseDouble(request.getParameter("lon"));
-                // return some fake restaurants
-                array.put(new JSONObject().put("name", "Panda Express"));
-                array.put(new JSONObject().put("name", "Hong Kong Express"));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        
+        JSONArray array = new JSONArray();
+        DBConnection connection = new MySQLDBConnection();
+        if (request.getParameterMap().containsKey("lat") && request.getParameterMap().containsKey("lon")) {
+            String term = request.getParameter("term");
+//            String userId = session.getAttribute("user");
+            String userId = "1111";
+            double lat = Double.parseDouble(request.getParameter("lat"));
+            double lon = Double.parseDouble(request.getParameter("lon"));
+            array = connection.searchRestaurants(userId, lat, lon, term);
         }
         RpcParser.writeOutput(response, array);
+
+//        JSONArray  array = new JSONArray();
+//        try {
+//            if (request.getParameterMap().containsKey("user_id") && request.getParameterMap().containsKey("lat") && request.getParameterMap().containsKey("lon")) {
+//                String userId = request.getParameter("user_id");
+//                double lat = Double.parseDouble(request.getParameter("lat"));
+//                double lon = Double.parseDouble(request.getParameter("lon"));
+//                // return some fake restaurants
+//                array.put(new JSONObject().put("name", "Panda Express"));
+//                array.put(new JSONObject().put("name", "Hong Kong Express"));
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        RpcParser.writeOutput(response, array);
         
         /*
          *  TEST Connection
