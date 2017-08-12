@@ -1,5 +1,7 @@
 package db;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -11,11 +13,35 @@ import model.Restaurant;
 import yelp.YelpAPI;
 
 public class MySQLDBConnection implements DBConnection {
+    
+    private Connection conn = null;
+    private static final int MAX_RECOMMENDED_RESTAURANTS = 10;
+    
+    public MySQLDBConnection() {
+        this(DBUtil.URL);
+    }
+    
+    public MySQLDBConnection(String url) {
+        try {
+            // Forcing the class representing the MySQL driver to load and initialize.
+            // The new Instance() call is a work around for some broken Java implementations
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            conn = DriverManager.getConnection(url);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void close() {
         // TODO Auto-generated method stub
-        
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (Exception e) {
+                // Ignored
+            }
+        }
     }
 
     @Override
@@ -60,8 +86,8 @@ public class MySQLDBConnection implements DBConnection {
         return null;
     }
 
-    @Override
-    public JSONArray searchRestaurants(String userId, double lat, double lon, String term) {
+    @Override  // When search and get some restaurants, store these restaurants in DB such that no need ot fetch them any more from Yelp
+    public JSONArray searchRestaurants(String userId, double lat, double lon, String term) { 
         // TODO Auto-generated method stub
 //        return null;
         
