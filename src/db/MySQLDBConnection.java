@@ -2,7 +2,10 @@ package db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -59,7 +62,22 @@ public class MySQLDBConnection implements DBConnection {
     @Override
     public Set<String> getVisitedRestaurants(String userId) {
         // TODO Auto-generated method stub
-        return null;
+//        return null;
+        
+        Set<String> visitedRestaurants = new HashSet<>();
+        try {
+            String sql = "SELECT business_id from history WHERE user_id = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, userId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                String visitedRestaurant = rs.getString("business_id");
+                visitedRestaurants.add(visitedRestaurant);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return visitedRestaurants;
     }
 
     @Override
@@ -98,13 +116,58 @@ public class MySQLDBConnection implements DBConnection {
             JSONArray array = (JSONArray) response.get("businesses");
             
             List<JSONObject> list = new ArrayList<>();
+            Set<String> visited = getVisitedRestaurants(userId);
             
             for (int i = 0; i < array.length(); i++) {
                 JSONObject object = array.getJSONObject(i);
                 Restaurant restaurant = new Restaurant(object);
+                
+                String businessId  = restaurant.getBusinessId();
+                String name = restaurant.getName();
+                String categories = restaurant.getCategories();
+                String city = restaurant.getCity();
+                String state = restaurant.getState();
+                String fullAddress = restaurant.getFullAddress();
+                double stars = restaurant.getStars();
+                double latitude = restaurant.getLatitude();
+                double longitude = restaurant.getLongitude();
+                String imageUrl = restaurant.getImageUrl();
+                String url = restaurant.getUrl();
+                
                 JSONObject obj = restaurant.toJSONObject();
-                list.add(obj);
-            }
+                
+                if (visited.contains(businessId)) {
+                    obj.put("is_visited", true);
+                } else {
+                    obj.put("is_visited", false);
+                }
+                
+                // Update to MySQL
+                String sql = "INSERT IGNORE INTO restaurants VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement statement = conn.prepareStatement(sql);
+                statement.setString(1, businessId);
+                statement.setString(2, name);
+                statement.setString(3, categories);
+                statement.setString(4, city);
+                statement.setString(5, state);
+                statement.setDouble(6, stars);
+                statement.setString(7, fullAddress);
+                statement.setDouble(8, latitude);
+                statement.setDouble(9, longitude);
+                statement.setString(10, imageUrl);
+                statement.setString(11, url);
+                statement.execute(); // End update
+                
+                // Perform filtering if term is specified
+                if (term == null || term.isEmpty()) {
+                    list.add(obj);
+                } else {
+                    if (categories.contains(term) || fullAddress.contains(term) || name.contains(term)) {
+                        list.add(obj);
+                    }
+                }   
+//                list.add(obj);
+            } // End for loop
             return new JSONArray(list);
         } catch (Exception e) {
             System.out.println(e.getMessage());
