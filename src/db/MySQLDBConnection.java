@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -50,13 +51,33 @@ public class MySQLDBConnection implements DBConnection {
     @Override
     public void setVisitedRestaurants(String userId, List<String> businessIds) {
         // TODO Auto-generated method stub
-        
+        String query = "INSERT INTO history (user_id, business_id) VALUES (?, ?)";
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            for (String businessId : businessIds) {
+                statement.setString(1,  userId);
+                statement.setString(2, businessId);
+                statement.execute();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void unsetVisitedRestaurants(String userId, List<String> businessIds) {
         // TODO Auto-generated method stub
-        
+        String query = "DELETE FROM history WHERE useri_id = ? and business_id = ?";
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            for (String businessId : businessIds) {
+                statement.setString(1, userId);
+                statement.setString(2, businessId);
+                statement.execute();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -143,7 +164,7 @@ public class MySQLDBConnection implements DBConnection {
                 }
                 
                 // Update to MySQL
-                String sql = "INSERT IGNORE INTO restaurants VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                String sql = "INSERT IGNORE INTO restaurants VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement statement = conn.prepareStatement(sql);
                 statement.setString(1, businessId);
                 statement.setString(2, name);

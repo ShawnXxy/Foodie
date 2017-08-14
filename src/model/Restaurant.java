@@ -71,7 +71,7 @@ public class Restaurant {
                 JSONObject coordinates = (JSONObject) object.get("coordinates");
                 this.latitude = coordinates.getDouble("latitude");
                 this.longitude = coordinates.getDouble("longitude");
-                JSONObject location = (JSONObject) object.get("locaction");
+                JSONObject location = (JSONObject) object.get("location");
                 this.city = location.getString("city");
                 this.state = location.getString("state");
                 this.fullAddress = jsonArrayToString((JSONArray) location.get("display_address"));

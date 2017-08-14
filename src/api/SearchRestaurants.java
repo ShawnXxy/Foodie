@@ -16,14 +16,14 @@ import db.MySQLDBConnection;
 /**
  * Servlet implementation class SearchRestarants
  */
-@WebServlet("/restarants")
-public class SearchRestarants extends HttpServlet {
+@WebServlet("/restaurants")
+public class SearchRestaurants extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SearchRestarants() {
+    public SearchRestaurants() {
         super();
         // TODO Auto-generated constructor stub
     }
