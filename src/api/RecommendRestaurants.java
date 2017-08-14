@@ -9,8 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+
+import db.DBConnection;
+import db.MySQLDBConnection;
 
 /**
  * Servlet implementation class RecommendRestaurants
@@ -26,6 +27,11 @@ public class RecommendRestaurants extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
+    
+    /**
+     *     Connect to MySQL
+     */
+    private static final DBConnection connection = new MySQLDBConnection();
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -34,18 +40,25 @@ public class RecommendRestaurants extends HttpServlet {
 		// TODO Auto-generated method stub
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
 	    
-	    JSONArray array = new JSONArray();
-	    try {
-	        if (request.getParameterMap().containsKey("user_id")) {
-	            String userId = request.getParameter("user_id");
-	            // return some fake restaurants
-	            array.put(new JSONObject().put("name", "Panda Express").put("location", "downtown").put("country", "US"));
-	            array.put(new JSONObject().put("name", "Hong Kong Express").put("location", "uptown").put("country", "US"));
-	        }
-	    } catch (JSONException e) {
-	        e.printStackTrace();
+	    JSONArray array = null;
+	    if (request.getParameterMap().containsKey("user_id")) {
+	        String userId = request.getParameter("user_id");
+	        array = connection.recommendRestaurants(userId);
 	    }
 	    RpcParser.writeOutput(response, array);
+	    
+//	    JSONArray array = new JSONArray();
+//	    try {
+//	        if (request.getParameterMap().containsKey("user_id")) {
+//	            String userId = request.getParameter("user_id");
+//	            // return some fake restaurants
+//	            array.put(new JSONObject().put("name", "Panda Express").put("location", "downtown").put("country", "US"));
+//	            array.put(new JSONObject().put("name", "Hong Kong Express").put("location", "uptown").put("country", "US"));
+//	        }
+//	    } catch (JSONException e) {
+//	        e.printStackTrace();
+//	    }
+//	    RpcParser.writeOutput(response, array);
 	}
 
 	/**

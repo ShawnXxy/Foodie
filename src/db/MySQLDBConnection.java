@@ -104,25 +104,110 @@ public class MySQLDBConnection implements DBConnection {
     @Override
     public JSONObject getRestaurantsById(String businessId, boolean isVisited) {
         // TODO Auto-generated method stub
+//        return null;
+        
+        try {
+            String sql = "SELECT * from restaurants where business_id = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, businessId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                Restaurant restaurant = new Restaurant(rs.getString("business_id"), rs.getString("name"), rs.getString("categories"), rs.getString("city"), rs.getString("state"), rs.getFloat("stars"), rs.getString("full_address"), rs.getFloat("latitude"), rs.getFloat("longitude"), rs.getString("image_url"), rs.getString("url"));
+                JSONObject obj = restaurant.toJSONObject();
+                obj.put("is_visited", isVisited);
+                return obj;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         return null;
     }
 
     @Override
     public JSONArray recommendRestaurants(String userId) {
         // TODO Auto-generated method stub
+//        return null;
+        
+        try {
+            if (conn == null) {
+                return null;
+            }
+            
+            // Step 1: Fetch all the restaurants(id) the user has visited
+            Set<String> visitedRestaurants = getVisitedRestaurants(userId);
+            // Step 2: Given all these restaurants, fetch the categories
+            Set<String> allCategories = new HashSet<>();
+            for (String restaurant : visitedRestaurants) {
+                allCategories.addAll(getCategories(restaurant));
+            }
+            // Step 3: Given these categories, search restaurants with these categories
+            Set<String> allRestaurants = new HashSet<>();
+            for (String category : allCategories) {
+                Set<String> set = getBusinessId(category);
+                allRestaurants.addAll(set);
+            }
+            // Step 4 : Filter restaurants that the user has visited
+            Set<JSONObject> diff = new HashSet<>();
+            int count = 0;
+            for (String businessId : allRestaurants) {
+                if (!visitedRestaurants.contains(businessId)) {
+                    diff.add(getRestaurantsById(businessId, false));
+                    count++;
+                    if (count >= MAX_RECOMMENDED_RESTAURANTS) {
+                        break;
+                    }
+                }
+            }
+            return new JSONArray(diff);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         return null;
     }
 
     @Override
     public Set<String> getCategories(String businessId) {
         // TODO Auto-generated method stub
-        return null;
+//        return null;
+        
+        try {
+            String sql = "SELECT categories from restaurants WHERE business_id = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, businessId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                Set<String> set = new HashSet<>();
+                String[] categories = rs.getString("categories").split(",");
+                for (String category : categories) {
+                    set.add(category.trim());
+                }
+                return set;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return new HashSet<String>();
     }
 
     @Override
     public Set<String> getBusinessId(String category) {
         // TODO Auto-generated method stub
-        return null;
+//        return null;
+        
+        Set<String> set = new HashSet<>();
+        try {
+            String  sql =  "SELECT business_id from restaurants WHERE categories LIKE ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, "%" + category + "%");
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                String businessId = rs.getString("business_id");
+                set.add(businessId);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return set;
     }
 
     @Override  // When search and get some restaurants, store these restaurants in DB such that no need ot fetch them any more from Yelp
