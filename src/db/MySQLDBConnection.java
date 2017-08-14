@@ -171,7 +171,7 @@ public class MySQLDBConnection implements DBConnection {
 //        return null;
         
         try {
-            String sql = "SELECT categories from restaurants WHERE business_id = ?";
+            String sql = "SELECT categories from restaurants WHERE business_id = ? ";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, businessId);
             ResultSet rs = statement.executeQuery();
@@ -179,6 +179,7 @@ public class MySQLDBConnection implements DBConnection {
                 Set<String> set = new HashSet<>();
                 String[] categories = rs.getString("categories").split(",");
                 for (String category : categories) {
+                    // ' Japanese ' -> 'Japanese'
                     set.add(category.trim());
                 }
                 return set;
@@ -290,8 +291,8 @@ public class MySQLDBConnection implements DBConnection {
             if (conn == null) {
                 return false;
             }
-            
-            String sql = " SELECT user_id from users WHERE user_id = ? and password = ?";
+
+            String sql = "SELECT user_id from users WHERE user_id = ? and password = ?";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, userId);
             statement.setString(2, password);

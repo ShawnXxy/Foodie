@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 
@@ -40,6 +41,25 @@ public class RecommendRestaurants extends HttpServlet {
 		// TODO Auto-generated method stub
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
 	    
+	    // Allow access only if session exists (remove below for ElasticSearch deployment)
+        HttpSession session = request.getSession();
+        if (session.getAttribute("user") == null) {
+            response.setStatus(403);
+            return;
+        }
+//        try {
+//            JSONArray array = null;
+//            String userId = (String) session.getAttribute("user");
+//            Set<String> visited_business_id = connection.getVisitedRestaurants(userId);
+//            array = new JSONArray();
+//            for (String id : visited_business_id) {
+//                array.put(connection.getRestaurantsById(id, true));
+//            }
+//            RpcParser.writeOutput(response, array);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+        
 	    JSONArray array = null;
 	    if (request.getParameterMap().containsKey("user_id")) {
 	        String userId = request.getParameter("user_id");

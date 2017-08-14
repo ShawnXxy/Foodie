@@ -40,22 +40,22 @@ public class LoginServlet extends HttpServlet {
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
 	    
 	    try {
-	        JSONObject msg = new JSONObject();
-	        HttpSession session = request.getSession();
-	        if (session.getAttribute("user") == null) {
-	            response.setStatus(403);
-	            msg.put("status", "Session Invalid");
-	        } else {
-	            String user = (String) session.getAttribute("user");
-	            String name = connection.getFirstLastName(user);
-	            msg.put("status", "OK");
-	            msg.put("user_id", user);
-	            msg.put("namae", name);
-	        }
-	        RpcParser.writeOutput(response, msg);
-	    } catch (JSONException e) {
-	        e.printStackTrace();
-	    }
+	         JSONObject msg = new JSONObject();
+	         HttpSession session = request.getSession();
+	         if (session.getAttribute("user") == null) {
+	             response.setStatus(403);
+	             msg.put("status", "Session Invalid");
+	         } else {
+	             String user = (String) session.getAttribute("user");
+	             String name = connection.getFirstLastName(user);
+	             msg.put("status", "OK");
+	             msg.put("user_id", user);
+	             msg.put("name", name);
+	         }
+	         RpcParser.writeOutput(response, msg);
+	     } catch (JSONException e) {
+	         e.printStackTrace();
+	     }
 	}
 
 	/**
@@ -64,28 +64,30 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		doGet(request, response);
+	    
 	    try {
-	        JSONObject msg = new JSONObject();
-	        // Get request parameters for userID and password
-	        String user = request.getParameter("user_id");
-	        String pwd = request.getParameter("password");
-	        if (connection.verifyLogin(user, pwd)) {
-	            HttpSession session = request.getSession();
-	            session.setAttribute("user", user);
-	            // Setting session to expire in 10 minutes
-	            session.setMaxInactiveInterval(10 * 60);
-	            // Get user name
-	            String name = connection.getFirstLastName(user);
-	            msg.put("status", "OK");
-	            msg.put("user_id", user);
-	            msg.put("name", name);
-	        } else {
-	            response.setStatus(401);
-	        }
-	        RpcParser.writeOutput(response, msg);
-	    } catch (JSONException e) {
-	        e.printStackTrace();
-	    }
+	         JSONObject msg = new JSONObject();
+	         // get request parameters for userID and password
+	         String user = request.getParameter("user_id");
+	         String pwd = request.getParameter("password");
+	         if (connection.verifyLogin(user, pwd)) {
+	             HttpSession session = request.getSession();
+	             session.setAttribute("user", user);
+	             // setting session to expire in 10 minutes
+	             session.setMaxInactiveInterval(10 * 60);
+	             // Get user name
+	             String name = connection.getFirstLastName(user);
+	             msg.put("status", "OK");
+	             msg.put("user_id", user);
+	             msg.put("name", name);
+	         } else {
+	             response.setStatus(401);
+	         }
+	         RpcParser.writeOutput(response, msg);
+	     } catch (JSONException e) {
+	         e.printStackTrace();
+//	         System.out.println(e.getMessage());
+	     }
 	}
 
 }
