@@ -39,6 +39,7 @@ public class SearchRestaurants extends HttpServlet {
         
         JSONArray array = new JSONArray();
         DBConnection connection = new MySQLDBConnection();
+//        DBConnection connection = new MongoDBConnection();
         if (request.getParameterMap().containsKey("lat") && request.getParameterMap().containsKey("lon")) {
             String term = request.getParameter("term");
 //            String userId = session.getAttribute("user");
