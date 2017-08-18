@@ -67,7 +67,7 @@ public class MySQLDBConnection implements DBConnection {
     @Override
     public void unsetVisitedRestaurants(String userId, List<String> businessIds) {
         // TODO Auto-generated method stub
-        String query = "DELETE FROM history WHERE useri_id = ? and business_id = ?";
+        String query = "DELETE FROM history WHERE user_id = ? and business_id = ?";
         try {
             PreparedStatement statement = conn.prepareStatement(query);
             for (String businessId : businessIds) {

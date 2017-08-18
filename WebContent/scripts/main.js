@@ -5,6 +5,7 @@
 	 **************/
 	var user_id = '';
 	var user_fullname = '';
+	
 	var lon = -74.009508;
 	var lat = 40.7393257;
 
@@ -13,11 +14,11 @@
 	 ***********************/
 	function init() {
 		// Register event liseners.
-		newDOM('register-btn').addEventListener('click', register);
-		newDOM('login-btn').addEventListener('click', login);// login() defined at LOGIN SETTING
-		newDOM('nearby-btn').addEventListener('click', loadNearbyRestaurants);// defined in RESTAURANTS SETTING
-		newDOM('fav-btn').addEventListener('click', loadFavoriteRestaurants); // defined in RESTAURANTS SETTING
-		newDOM('recommend-btn').addEventListener('click', loadRecommendedRestaurants); // defined in RESTAURANTS SETTING
+		$('register-btn').addEventListener('click', register);
+		$('login-btn').addEventListener('click', login);// login() defined at LOGIN SETTING
+		$('nearby-btn').addEventListener('click', loadNearbyRestaurants);// defined in RESTAURANTS SETTING
+		$('fav-btn').addEventListener('click', loadFavoriteRestaurants); // defined in RESTAURANTS SETTING
+		$('recommend-btn').addEventListener('click', loadRecommendedRestaurants); // defined in RESTAURANTS SETTING
 
 		 validateSession(); // defined at SESSION SETTING
 		// fake users info used for test
@@ -52,12 +53,12 @@
 		user_id = result.user_id;
 		user_fullname = result.name;
 
-		var loginForm = newDOM('login-form');
-		var restaurantNav = newDOM('restaurant-nav');
-		var restaurantList = newDOM('restaurant-list');
-		var avatar = newDOM('avatar');
-		var welcomeMsg = newDOM('welcome-msg');
-		var logoutBtn = newDOM('logout-link');
+		var loginForm = $('login-form');
+		var restaurantNav = $('restaurant-nav');
+		var restaurantList = $('restaurant-list');
+		var avatar = $('avatar');
+		var welcomeMsg = $('welcome-msg');
+		var logoutBtn = $('logout-link');
 
 		function callGreet() {
 			var greeting;
@@ -91,12 +92,12 @@
 	} // end of onSessionValid()
 
 	function onSessionInvalid() {
-		var loginForm = newDOM('login-form');
-		var restaurantNav = newDOM('restaurant-nav');
-		var restaurantList = newDOM('restaurant-list');
-		var avatar = newDOM('avatar');
-		var welcomeMsg = newDOM('welcome-msg');
-		var logoutBtn = newDOM('logout-link');
+		var loginForm = $('login-form');
+		var restaurantNav = $('restaurant-nav');
+		var restaurantList = $('restaurant-list');
+		var avatar = $('avatar');
+		var welcomeMsg = $('welcome-msg');
+		var logoutBtn = $('logout-link');
 		
 		// hide content if failed logged in
 		hideElement(restaurantNav);
@@ -158,8 +159,8 @@
 	 * LOGIN SETTING
 	 **********************/
 	function login() {
-		var username = newDOM('username').value;
-		var password = newDOM('password').value;
+		var username = $('username').value;
+		var password = $('password').value;
 		// MD5 hash
 		password = md5(username + md5(password));
 
@@ -181,16 +182,16 @@
 	} // end login()
 
 	function showLoginError() {
-		newDOM('login-error').innerHTML = 'Invalid username or password';
+		$('login-error').innerHTML = 'Invalid username or password';
 	}
 
 	function clearLoginError() {
-		newDOM('login-error').innerHTML = '';
+		$('login-error').innerHTML = '';
 	}
 
 	function register() {
-		var username = newDOM('username').value;
-		var password = newDOM('password').value;
+		var username = $('username').value;
+		var password = $('password').value;
 		// MD5 hash
 		password = md5(username + md5(password));
 
@@ -226,24 +227,24 @@
 		}
 
 		// active the one that has id = btnId
-		var btn = newDOM(btnId);
+		var btn = $(btnId);
 		btn.className += ' active';
 	} // end activeBtn()
 
 	function showLoadingMessage(msg) {
-		var restaurantList = newDOM('restaurant-list');
+		var restaurantList = $('restaurant-list');
 		restaurantList.innerHTML = '<p class="notice"><i class="fa fa-spinner fa-spin"></i> '
 				+ msg + '</p>';
 	}
 
 	function showWarningMessage(msg) {
-		var restaurantList = newDOM('restaurant-list');
+		var restaurantList = $('restaurant-list');
 		restaurantList.innerHTML = '<p class="notice"><i class="fa fa-exclamation-triangle"></i> '
 				+ msg + '</p>';
 	}
 
 	function showErrorMessage(msg) {
-		var restaurantList = newDOM('restaurant-list');
+		var restaurantList = $('restaurant-list');
 		restaurantList.innerHTML = '<p class="notice"><i class="fa fa-exclamation-circle"></i> '
 				+ msg + '</p>';
 	}
@@ -266,7 +267,7 @@
 	/************************************************************
 	 * HELPER function
 	 *
-	 * newDOM() that creates a new DOM element <tag options...>
+	 * $() that creates a new DOM element <tag options...>
 	 *
 	 * ajax() connection function
 	 *
@@ -279,7 +280,7 @@
 	 * @param errorHandler -
 	 *            This is the failed callback
 	 ***************************************************************/
-	function newDOM(tag, options) {
+	function $(tag, options) {
 		if (!options) {
 			return document.getElementById(tag);
 		}
@@ -290,7 +291,7 @@
 			}
 		}
 		return element;
-	} // end of newDOM()
+	} // end of $()
 
 	// AJAX
 	function ajax(method, url, data, callback, errorHandler) {
@@ -408,8 +409,8 @@
 
 	function changeFavoriteRestaurant(business_id) {
 		// Check whether this restaurant has been visited or not
-		var li = newDOM('restaurant-' + business_id);
-		var favIcon = newDOM('fav-icon-' + business_id);
+		var li = $('restaurant-' + business_id);
+		var favIcon = $('fav-icon-' + business_id);
 		var isVisited = li.dataset.visited !== 'true';
 
 		// The request parameters
@@ -444,7 +445,7 @@
 
 	function listRestaurants(restaurants) {
 		// Clear the current results
-		var restaurantList = newDOM('restaurant-list');
+		var restaurantList = $('restaurant-list');
 		restaurantList.innerHTML = '';
 
 		for (var i = 0; i < restaurants.length; i++) {
@@ -456,7 +457,7 @@
 		var business_id = restaurant.business_id;
 
 		// create the <li> tag and specify the id and class attributes
-		var li = newDOM('li', {
+		var li = $('li', {
 			id : 'restaurant-' + business_id,
 			className : 'restaurant'
 		});
@@ -466,15 +467,15 @@
 		li.dataset.visited = restaurant.is_visited;
 
 		// restaurant image
-		li.appendChild(newDOM('img', {
+		li.appendChild($('img', {
 			src : restaurant.image_url
 		}));
 
 		// section
-		var section = newDOM('div', {});
+		var section = $('div', {});
 
 		// title
-		var title = newDOM('a', {
+		var title = $('a', {
 			href : restaurant.url,
 			target : '_blank',
 			className : 'restaurant-name'
@@ -483,24 +484,24 @@
 		section.appendChild(title);
 
 		// category
-		var category = newDOM('p', {
+		var category = $('p', {
 			className : 'restaurant-category'
 		});
 		category.innerHTML = 'Category: ' + restaurant.categories.join(', ');
 		section.appendChild(category);
 
 		// stars: used for rating
-		var stars = newDOM('div', {
+		var stars = $('div', {
 			className : 'stars'
 		});
 		for (var i = 1; i <= restaurant.stars; i++) {
-			var star = newDOM('i', {
+			var star = $('i', {
 				className : 'fa fa-star'
 			});
 			stars.appendChild(star);
 		}
-		if (('' + restaurant.stars).match(/\.5newDOM/)) {
-			stars.appendChild(newDOM('i', {
+		if (('' + restaurant.stars).match(/\.5$/)) {
+			stars.appendChild($('i', {
 				className : 'fa fa-star-half-o'
 			}));
 		}
@@ -508,21 +509,21 @@
 		li.appendChild(section);
 
 		// address
-		var address = newDOM('p', {
+		var address = $('p', {
 			className : 'restaurant-address'
 		});
 		address.innerHTML = restaurant.full_address.replace(/,/g, '<br/>');
 		li.appendChild(address);
 
 		// favorite link
-		var favLink = newDOM('p', {
+		var favLink = $('p', {
 			className : 'fav-link'
 		});
 		favLink.onclick = function() {
 			changeFavoriteRestaurant(business_id);
 		};
 
-		favLink.appendChild(newDOM('i', {
+		favLink.appendChild($('i', {
 			id : 'fav-icon-' + business_id,
 			className : restaurant.is_visited ? 'fa fa-heart' : 'fa fa-heart-o'
 		}));
