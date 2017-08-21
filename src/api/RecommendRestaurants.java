@@ -41,7 +41,7 @@ public class RecommendRestaurants extends HttpServlet {
 		// TODO Auto-generated method stub
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
 	    
-	    // Allow access only if session exists (remove below for ElasticSearch deployment)
+	    // Allow access only if session exists (remove below for Junit Test or ElasticSearch deployment)
         HttpSession session = request.getSession();
         if (session.getAttribute("user") == null) {
             response.setStatus(403);
