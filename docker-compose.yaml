@@ -5,7 +5,7 @@ db:
   container_name: test-mysql
   environment:
     - MYSQL_ROOT_PASSWORD=root
-    - MYSQL_DATABASE=laiproject
+    - MYSQL_DATABASE=laiproject
   restart: always
   ports:
     - "3306"
