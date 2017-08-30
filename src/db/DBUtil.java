@@ -2,6 +2,7 @@ package db;
 
 public class DBUtil {
     private static final String HOSTNAME = "localhost";
+//    private static final String HOSTNAME = "dockertest-mysql";
     private static final String PORT_NUM = "3306";
     public static final String DB_NAME = "foodie";
     private static final String USERNAME = "root";

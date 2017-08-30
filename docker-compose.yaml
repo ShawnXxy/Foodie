@@ -1,19 +1,20 @@
 version: '3'
 services:
-db:
-  build: dbinit
-  container_name: test-mysql
-  environment:
-    - MYSQL_ROOT_PASSWORD=root
-    - MYSQL_DATABASE=laiproject
-  restart: always
-  ports:
-    - "3306"
-web:
-  build: .
-  container_name: test-webapp
-  restart: always
-  ports:
-    - "8081:8080"
-  depends_on:
-    - db
+  db:
+    build: dbinit
+    container_name: dockertest-foodie
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      -  MYSQL_DATABASE=laiproject
+    restart: always
+    ports:
+      - "3306"
+  web:
+    build: .
+    container_name: dockertest-webapp
+    restart:  always
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+   
