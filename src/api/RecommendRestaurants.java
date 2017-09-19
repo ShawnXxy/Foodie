@@ -7,12 +7,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 
 import db.DBConnection;
-import db.MySQLDBConnection;
+import db.DBConnectionFactory;
 
 /**
  * Servlet implementation class RecommendRestaurants
@@ -32,7 +31,7 @@ public class RecommendRestaurants extends HttpServlet {
     /**
      *     Connect to MySQL
      */
-    private static final DBConnection connection = new MySQLDBConnection();
+    private static final DBConnection connection = DBConnectionFactory.getDBConnection();
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -42,11 +41,11 @@ public class RecommendRestaurants extends HttpServlet {
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
 	    
 	    // Allow access only if session exists (remove below for Junit Test or ElasticSearch deployment)
-        HttpSession session = request.getSession();
-        if (session.getAttribute("user") == null) {
-            response.setStatus(403);
-            return;
-        }
+//        HttpSession session = request.getSession();
+//        if (session.getAttribute("user") == null) {
+//            response.setStatus(403);
+//            return;
+//        }
 //        try {
 //            JSONArray array = null;
 //            String userId = (String) session.getAttribute("user");
@@ -60,8 +59,15 @@ public class RecommendRestaurants extends HttpServlet {
 //            e.printStackTrace();
 //        }
         
+//        String userId = request.getParameter("user_id");
+//        double lat = Double.parseDouble(request.getParameter("lat"));
+//        double lon = Double.parseDouble(request.getParameter("lon"));
+//        List<Restaurant> list = connection.recommendRestaurants(userId, lat, lon);        
+//        RpcParser.writeOutput(response, list);
+        
 	    JSONArray array = null;
-	    if (request.getParameterMap().containsKey("user_id")) {
+	    if (request.getParameterMap().containsKey("user_id") 
+	            ) {
 	        String userId = request.getParameter("user_id");
 	        array = connection.recommendRestaurants(userId);
 	    }

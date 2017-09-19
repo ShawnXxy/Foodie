@@ -17,7 +17,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import db.DBConnection;
-import db.MySQLDBConnection;
+import db.DBConnectionFactory;
+import db.mysql.MySQLDBConnection;
 
 /**
  * Servlet implementation class VisitHistory
@@ -39,7 +40,7 @@ public class VisitHistory extends HttpServlet {
     /**
      * Connect to MySQL
      */
-    private static final DBConnection connection = new MySQLDBConnection();
+    private static final DBConnection connection = DBConnectionFactory.getDBConnection();
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)

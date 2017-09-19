@@ -48,7 +48,7 @@ public interface DBConnection {
      *  @return
      */
     public JSONArray recommendRestaurants(String userId);
-    
+//    public JSONArray recommendRestaurants(String userId, double lat, double lon);
     /**
      *  Gets categories based on business id
      *  @param
@@ -70,6 +70,7 @@ public interface DBConnection {
      *  @param lon
      *  @return
      */
+//    public List<Restaurant> searchRestaurants(String userId, double lat, double lon, String term);
     public JSONArray searchRestaurants(String userId, double lat, double lon, String term);
     
     /**

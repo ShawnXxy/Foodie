@@ -34,7 +34,7 @@ public class RpcParser {
     public static void writeOutput(HttpServletResponse response, JSONObject obj) {
         try {
             response.setContentType("application/json"); // Tell the browser that server is return a response in a format of json
-            response.addHeader("Access-Control-Allow-Origin", "*"); // Allow all viewers to view this response
+//            response.addHeader("Access-Control-Allow-Origin", "*"); // Allow all viewers to view this response
             PrintWriter out = response.getWriter();
             out.print(obj);
             out.flush(); // Flush the output stream and send the data to the client side
@@ -47,7 +47,7 @@ public class RpcParser {
     public static void writeOutput(HttpServletResponse response, JSONArray array) {
         try {
             response.setContentType("application/json"); // Tell the browser that server is return a response in a format of json
-            response.addHeader("Access-Control-Allow-Origin", "*"); // Allow all viewers to view this response
+//            response.addHeader("Access-Control-Allow-Origin", "*"); // Allow all viewers to view this response
             PrintWriter out = response.getWriter();
             out.print(array);
             out.flush(); // Flush the output stream and send the data to the client side

@@ -2,9 +2,10 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <meta name="description" content="Foodie Chihuo Restaurant Recommendation">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Foodies' Restaurant Recommendation">
   <meta name="author" content="Xiangyu Xiao">
-  <title>Foodie/Chihuo's Restaurant Recommendation</title>
+  <title>Foodies' Restaurant Recommendation</title>
   <!--Google font-->
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
   <!-- font awesome -->
@@ -15,6 +16,8 @@
   <!-- custom css -->
   <link rel="stylesheet" href="styles/custom.css">
   <link rel="stylesheet" href="styles/contact.css">
+  <!-- hover.css -->
+  <link href="styles/hover.css" rel="stylesheet" media="all">
   <!-- favicon -->
   <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -27,14 +30,15 @@
   <header class="top-header">
     <nav class="top-nav navbar navbar-default navbar-fixed-top">
     	<div class="container">
-    		<a href="index.html">Home</a>
-			<a href="contact.html">Contact</a>
-		    <!--<a href="#">About</a>  -->
+		    <a href="index.html"><span class="hvr-underline-from-center">Home</span></a>
+		    <a href="http://34.214.8.249:8080/Titan/"><span class="hvr-underline-from-center">Events</span></a> 
+			  <a href="contact.html"><span class="hvr-underline-from-center">Contact</span></a>
+		    
     	</div>
       
     </nav>
     <span id="welcome-msg" onload="callGreet()"></span>
-    <a id="logout-link" href="LogoutServlet">Logout</a>
+    <a id="logout-link" href="LogoutServlet"><span class="hvr-underline-from-center">Logout</span></a>
     <i id="avatar" class="avatar fa fa-user fa-2x"></i>
   </header>
 
@@ -48,14 +52,14 @@
 
     <section class="main-section">
       <div id="login-form">
-	    <label for="username">Username:</label>
-	    <input id="username" name="username" type="text">
-	    <label for="password">Password:</label>
-	    <input id="password" name="password" type="password">
-	    <button id="login-btn">Login</button>
-	    <button id="register-btn">Register</button>
-	    <p id="login-error"></p>
-	  </div>
+        <label for="username">Username:</label>
+        <input id="username" name="username" type="text">
+        <label for="password">Password:</label>
+        <input id="password" name="password" type="password">
+        <button id="login-btn" class="hvr-radial-out">Login</button>
+        <button id="register-btn" class="hvr-radial-out">Register</button>
+        <p id="login-error"></p>
+	    </div>
 
       <aside id="restaurant-nav">
         <div class="nav-icon">
@@ -93,7 +97,24 @@
         </li>
       </ul>
     </section>
+
+    <div class="post" id="post">
+      <h1>Comments</h1>
+      <div class="comments">
+        <div class="fb-comments" data-href="http://54.201.121.135:8080/Foodie/" data-width="100%" data-numposts="5"></div>
+      </div>
+    </div>
+    
   </div>
+
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
 
   <footer>
     <p class="title">What We Do</p>

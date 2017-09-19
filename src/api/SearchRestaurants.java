@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONArray;
 
 import db.DBConnection;
-import db.MySQLDBConnection;
+import db.DBConnectionFactory;
 
 /**
  * Servlet implementation class SearchRestarants
@@ -51,7 +51,7 @@ public class SearchRestaurants extends HttpServlet {
         
         JSONArray array = null;
 //        JSONArray array = new JSONArray();
-        DBConnection connection = new MySQLDBConnection();
+        DBConnection connection = DBConnectionFactory.getDBConnection();
 //        DBConnection connection = new MongoDBConnection();
         if (request.getParameterMap().containsKey("user_id") && request.getParameterMap().containsKey("lat") && request.getParameterMap().containsKey("lon")) {
 //        if (request.getParameterMap().containsKey("lat") && request.getParameterMap().containsKey("lon")) {

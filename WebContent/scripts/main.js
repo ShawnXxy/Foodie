@@ -26,6 +26,8 @@
 //			user_id : '1111',
 //			name : 'Xiangyu Xiao'
 //		});
+
+		initGeoLocation();
 	} // end of init()
 
 	/*******************
@@ -59,6 +61,7 @@
 		var avatar = $('avatar');
 		var welcomeMsg = $('welcome-msg');
 		var logoutBtn = $('logout-link');
+		var post = $('post');
 
 		function callGreet() {
 			var greeting;
@@ -86,6 +89,7 @@
 		showElement(avatar);
 		showElement(welcomeMsg);
 		showElement(logoutBtn, 'inline-block');
+		showElement(post);
 		hideElement(loginForm);
 
 		initGeoLocation();// defined at GEO INFO SETTING
@@ -98,6 +102,7 @@
 		var avatar = $('avatar');
 		var welcomeMsg = $('welcome-msg');
 		var logoutBtn = $('logout-link');
+		var post = $('post');
 		
 		// hide content if failed logged in
 		hideElement(restaurantNav);
@@ -105,6 +110,7 @@
 		hideElement(avatar);
 		hideElement(logoutBtn);
 		hideElement(welcomeMsg);
+		hideElement(post);
 		// show login form
 		showElement(loginForm);
 	}
@@ -320,8 +326,7 @@
 		if (data === null) {
 			xhr.send();
 		} else {
-			xhr.setRequestHeader("Content-Type",
-					"application/json;charset=utf-8");
+			xhr.setRequestHeader("Content-Type", "application/json;charset=utf-8");
 			xhr.send(data);
 		}
 	} // end of ajax()
