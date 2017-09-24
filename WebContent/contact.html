@@ -27,18 +27,35 @@
   <meta name="theme-color" content="#ffffff">
 </head>
 <body>
+    <header class="top-header">
+        <nav class="navbar navbar-expand-lg navbar-dark top-header top-nav navbar-fixed-top">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              <a class="nav-item nav-link" href="index.html"><span class="hvr-underline-from-center">Home</span></a>
+              <a class="nav-item nav-link" href="http://34.214.8.249:8080/Titan/" target="_blank"><span class="hvr-underline-from-center">Events</span></a>
+              <a class="nav-item nav-link" href="contact.html" target="_blank"><span class="hvr-underline-from-center">Contact</span></a>
+            </div>
+          </div>
+        </nav>
+        <span id="welcome-msg" onload="callGreet()"></span>
+        <a id="logout-link" href="LogoutServlet"><span class="hvr-underline-from-center">Logout</span></a>
+        <i id="avatar" class="avatar fa fa-user fa-2x"></i>
+    </header>
+
   <header class="top-header">
     <nav class="top-nav navbar navbar-default navbar-fixed-top">
     	<div class="container">
         <a href="index.html"><span class="hvr-underline-from-center">Home</span></a>
         <a href="http://34.214.8.249:8080/Titan/"><span class="hvr-underline-from-center">Events</span></a> 
 			  <a href="contact.html"><span class="hvr-underline-from-center">Contact</span></a>
-    	</div>
-      
+      </div>
+      <span id="welcome-msg" onload="callGreet()"></span>
+      <a id="logout-link" href="LogoutServlet"><span class="hvr-underline-from-center">Logout</span></a>
+      <i id="avatar" class="avatar fa fa-user fa-2x"></i>
     </nav>
-    <span id="welcome-msg" onload="callGreet()"></span>
-    <a id="logout-link" href="LogoutServlet"><span class="hvr-underline-from-center">Logout</span></a>
-    <i id="avatar" class="avatar fa fa-user fa-2x"></i>
   </header>
 
   <div class="container">

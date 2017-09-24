@@ -29,7 +29,11 @@ ul {
   position:    fixed;
   top:         0;
   width:       100%;
-  z-index:     1;
+  z-index:     10;
+}
+
+.collapse {
+  background: #DF574B;
 }
 
 #avatar {
@@ -40,11 +44,12 @@ ul {
   background:    #FFFFFF;
   border-radius: 50%;
   color:         #333C4D;
-  height:        40px;
+  height: auto;
+  /* height:        40px;
   margin-right:  20px;
   padding-left:  9px;
   padding-top:   5px;
-  width:         40px;
+  width:         auto; */
 }
 
 /**
@@ -73,6 +78,8 @@ ul {
   border-right:  1px solid #FFFFFF;
   display:       none;
   padding-right: 10px;
+  width: 100%;
+  text-align: right;
 }
 
 /**
@@ -100,8 +107,10 @@ ul {
   font-weight:  400;
   font-size:    2em;
   line-height:  1em;
-  margin-left:  220px;
-  padding-left: 5px;
+  text-align: left;
+  margin-left:  auto;
+  margin-right: auto;
+  /* padding-left: 5px; */
 }
 
 .container > header span {
@@ -338,5 +347,7 @@ footer ul li {
 	color: inherit;
 }
 .web:hover {
-	font-weight: bold;
+  font-weight: bold;
+  text-decoration: none;
+  color: #ffffff;
 }

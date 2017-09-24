@@ -11,8 +11,7 @@
   <!-- font awesome -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Bootstrap -->
-  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
-  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
   <!-- custom css -->
   <link rel="stylesheet" href="styles/custom.css">
   <link rel="stylesheet" href="styles/contact.css">
@@ -27,25 +26,27 @@
   <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-  <header class="top-header">
-    <nav class="top-nav navbar navbar-default navbar-fixed-top">
-    	<div class="container">
-		    <a href="index.html"><span class="hvr-underline-from-center">Home</span></a>
-		    <a href="http://34.214.8.249:8080/Titan/"><span class="hvr-underline-from-center">Events</span></a> 
-			  <a href="contact.html"><span class="hvr-underline-from-center">Contact</span></a>
-		    
-    	</div>
-      
-    </nav>
-    <span id="welcome-msg" onload="callGreet()"></span>
-    <a id="logout-link" href="LogoutServlet"><span class="hvr-underline-from-center">Logout</span></a>
-    <i id="avatar" class="avatar fa fa-user fa-2x"></i>
-  </header>
+    <header class="top-header">
+      <nav class="navbar navbar-expand-lg navbar-dark top-header top-nav navbar-fixed-top">        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>        
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link" href="#"><span class="hvr-underline-from-center">Home</span></a>
+            <a class="nav-item nav-link" href="http://34.214.8.249:8080/Titan/" target="_blank"><span class="hvr-underline-from-center">Events</span></a>
+            <a class="nav-item nav-link" href="contact.html" target="_blank"><span class="hvr-underline-from-center">Contact</span></a>
+          </div>
+        </div>
+        <span id="welcome-msg" onload="callGreet()"></span>
+        <a id="logout-link" href="LogoutServlet"><span class="hvr-underline-from-center">Logout</span></a>
+        <i id="avatar" class="avatar fa fa-user fa-2x"></i>
+      </nav>     
+    </header>
 
   <div class="container">
     <header>
-      <p>
-        Foodie's
+      <p>Foodie's
         <br/><span id="meal" onload="meal()">Restaurant</span> Recommendation
       </p>
     </header>
@@ -144,7 +145,9 @@
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="  crossorigin="anonymous"></script>
   <!-- script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>-->
   <!-- Bootstrap -->
-  <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>-->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
   <!-- contact_me js -->
   <script src="scripts/contact_me.js"></script>
   <!-- custom js -->
