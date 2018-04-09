@@ -16,7 +16,7 @@ public class YelpAPI {
     private static final String SEARCH_PATH = "/v3/businesses/search"; // Yelp API documentation for search is at https://www.yelp.com/developers/documentation/v3/business_search
     private static final String TOKEN_HOST = "https://api.yelp.com/oauth2/token"; // Yelp API documentation for authentication is at https://www.yelp.com/developers/documentation/v3/authentication
     private static final String CLIENT_ID = "GVs-s_-YSLeowugSzktDzg";
-    private static final String CLIENT_SECRET = "kipvlduDU8hUQ5UIyGvWnnAchHH9FAGr2j836gROl7lfwL4o9XKWu06JFDoy29Fq";
+    private static final String CLIENT_SECRET = "mxn23KHHkMz4qmN-bEKVrEi4kTtfglJDqsCAuB2cDuklsBqVJ4NBOWe6vCSwZDdTcqFg9-QYGguRgfshmtYqC3a2avfTGSoqPAUMiCOVCyZ7P_MgFALPJRsysjXwWHYx";
     private static final String GRANT_TYPE = "client_credentials";
     private static final String TOKEN_TYPE = "BEARER";
     
@@ -69,12 +69,13 @@ public class YelpAPI {
         String query = String.format("term=%s&latitude=%s&longitude=%s&limit=%s", DEFAULT_TERM, latitude, longitude, SEARCH_LIMIT);
         String url = API_HOST + SEARCH_PATH;
         try {
-            String access_token = obtainAccessToken().getString("access_token");
+//            String access_token = obtainAccessToken().getString("access_token");
             HttpURLConnection connection = (HttpURLConnection) new URL(url + "?" + query).openConnection();
             
             // optional default is GET
 //            connection.setRequestProperty("User_Agent", "Mozilla/5.0");
-            connection.setRequestProperty("Authorization", TOKEN_TYPE + " " + access_token);
+//            connection.setRequestProperty("Authorization", TOKEN_TYPE + " " + access_token); // Removed as Yelp changed the way to request access token
+            connection.setRequestProperty("Authorization", TOKEN_TYPE + " " + CLIENT_SECRET);
             
             int responseCode = connection.getResponseCode();
             System.out.println("\nSending 'GET' requests to URL : " + url);
