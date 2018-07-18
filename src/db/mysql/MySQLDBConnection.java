@@ -30,7 +30,7 @@ public class MySQLDBConnection implements DBConnection {
     }
     
     private Connection conn = null;
-    private static final int MAX_RECOMMENDED_RESTAURANTS = 10;
+    private static final int MAX_RECOMMENDED_RESTAURANTS = 30;
     
     public MySQLDBConnection() {
         this(DBUtil.URL);

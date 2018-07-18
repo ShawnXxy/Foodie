@@ -12,7 +12,7 @@ import org.json.JSONObject;
 public class YelpAPI {
     private static final String API_HOST = "https://api.yelp.com";
     private static final String DEFAULT_TERM = "dinner";
-    private static final int SEARCH_LIMIT = 20;
+    private static final int SEARCH_LIMIT = 50;
     private static final String SEARCH_PATH = "/v3/businesses/search"; // Yelp API documentation for search is at https://www.yelp.com/developers/documentation/v3/business_search
     private static final String TOKEN_HOST = "https://api.yelp.com/oauth2/token"; // Yelp API documentation for authentication is at https://www.yelp.com/developers/documentation/v3/authentication
     private static final String CLIENT_ID = "GVs-s_-YSLeowugSzktDzg";
