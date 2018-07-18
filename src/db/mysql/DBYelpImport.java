@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 /**
  *  Create DB tables in MySQL
@@ -18,8 +19,18 @@ public class DBYelpImport {
             Connection conn = null;
 
             try {
-                System.out.println("Connecting to \n" + DBUtil.URL); // \n means to another line
-                conn = DriverManager.getConnection(DBUtil.URL);
+                System.out.println("Connecting to \n" + DBUtil.URL); 
+//                conn = DriverManager.getConnection(DBUtil.URL);
+                
+                // Set connection properties for connecting to Azure DB MySQL.
+                Properties properties = new Properties();
+                properties.setProperty("user", DBUtil.USERNAME);
+                properties.setProperty("password", DBUtil.PASSWORD);
+                properties.setProperty("useSSL", "true");
+                properties.setProperty("verifyServerCertificate", "true");
+                properties.setProperty("requireSSL", "false");
+                conn = DriverManager.getConnection(DBUtil.URL, properties);
+                
             } catch (SQLException e) {
                 System.out.println("SQLException " + e.getMessage());
                 System.out.println("SQLState " + e.getSQLState());
@@ -76,7 +87,7 @@ public class DBYelpImport {
 
             // Insert data
             // create a fake user
-            sql = "INSERT INTO users " + "VALUES (\"1111\", \"3229c1097c00d497a0fd282d586be050\", \"Xiangyu\", \"Xiao\")";
+            sql = "INSERT INTO users " + "VALUES (\"1111\", \"2222\", \"Xiangyu\", \"Xiao\")";
             System.out.println("\nDBYelpImport executing query:\n" + sql);
             stmt.executeUpdate(sql);
             

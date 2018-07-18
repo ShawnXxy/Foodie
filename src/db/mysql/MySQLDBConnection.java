@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 import org.json.JSONArray;
@@ -40,7 +41,17 @@ public class MySQLDBConnection implements DBConnection {
             // Forcing the class representing the MySQL driver to load and initialize.
             // The new Instance() call is a work around for some broken Java implementations
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection(url);
+//            conn = DriverManager.getConnection(url);
+            
+            // Set connection properties for connecting to Azure DB MySQL.
+            Properties properties = new Properties();
+            properties.setProperty("user", DBUtil.USERNAME);
+            properties.setProperty("password", DBUtil.PASSWORD);
+            properties.setProperty("useSSL", "true");
+            properties.setProperty("verifyServerCertificate", "true");
+            properties.setProperty("requireSSL", "false");
+            conn = DriverManager.getConnection(url, properties);
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
